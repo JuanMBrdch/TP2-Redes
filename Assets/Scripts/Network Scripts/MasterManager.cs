@@ -11,7 +11,7 @@ public class MasterManager : MonoBehaviour
     //public CameraController cameraController;
     public PlayerList playerList;
 
-    static MasterManager _instance;
+    private static MasterManager _instance;
     Dictionary<ulong, PlayerModel> _dic = new Dictionary<ulong, PlayerModel>();
     Dictionary<PlayerModel, ulong> _dicInverse = new Dictionary<PlayerModel, ulong>();
     public static MasterManager Singleton => _instance;

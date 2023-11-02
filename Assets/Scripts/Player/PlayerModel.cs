@@ -13,11 +13,11 @@ public class PlayerModel : NetworkBehaviour
     public NetworkVariable<int> team;
     public NetworkVariable<FixedString128Bytes> nickname;
     public NetworkVariable<CustomData> customData;
-    Rigidbody _rb;
+    Rigidbody2D _rb;
     Vector3 dir;
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody2D>();
         score = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         nickname = new NetworkVariable<FixedString128Bytes>("Player", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         customData = new NetworkVariable<CustomData>(new CustomData(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner); ;
