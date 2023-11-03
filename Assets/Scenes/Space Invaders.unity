@@ -733,20 +733,47 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      time: -0.007501632
+      value: 1.0118375
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      time: -0.0033658333
+      value: 1.0118545
+      inSlope: 0.008271599
+      outSlope: 0.008271599
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6110945
+      value: 2.0097451
+      inSlope: 1.9979064
+      outSlope: 1.9979064
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.75172186
+      value: 2.252812
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.0000707
+      value: 3.0177155
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -754,9 +781,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   rows: 5
-  columns: 11
+  columns: 22
   missilePrefab: {fileID: 5048512893512326460, guid: 3c328e673b90a7f418f1f1e66f83522b, type: 3}
-  missileSpawnRate: 0.1
+  missileSpawnRate: 1.36
 --- !u!1 &1001845995
 GameObject:
   m_ObjectHideFlags: 0

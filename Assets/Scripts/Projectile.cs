@@ -18,23 +18,23 @@ public class Projectile : MonoBehaviour
         transform.position += direction * speed * Time.deltaTime;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        CheckCollision(other);
-    }
+    //private void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    CheckCollision(other);
+    //}
 
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        CheckCollision(other);
-    }
+    //private void OnTriggerStay2D(Collider2D other)
+    //{
+    //    CheckCollision(other);
+    //}
 
-    private void CheckCollision(Collider2D other)
-    {
-        Bunker bunker = other.gameObject.GetComponent<Bunker>();
+    //private void CheckCollision(Collider2D other)
+    //{
+    //    Bunker bunker = other.gameObject.GetComponent<Bunker>();
 
-        if (bunker == null || bunker.CheckCollision(collider, transform.position)) {
-            Destroy(gameObject);
-        }
-    }
+    //    if (bunker == null || bunker.CheckCollision(collider, transform.position)) {
+    //        Destroy(gameObject);
+    //    }
+    //}
 
 }
