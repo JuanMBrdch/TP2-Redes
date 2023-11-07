@@ -15,6 +15,8 @@ public class PlayerModel : NetworkBehaviour
     public NetworkVariable<CustomData> customData;
     Rigidbody2D _rb;
     Vector3 dir;
+    public Vector3 direction = Vector3.up;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -51,7 +53,7 @@ public class PlayerModel : NetworkBehaviour
     public void Shoot()
     {
         var dir = transform.forward;
-        var netObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity).GetComponent<NetworkObject>();
+        var netObj = Instantiate(bulletPrefab, transform.position + direction * speed * Time.deltaTime, transform.rotation).GetComponent<NetworkObject>();
         netObj.Spawn();
         //netObj.GetComponent<Bullet>().Shoot(this, dir);
     }
