@@ -5,9 +5,9 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
-    private ulong _localID;
+     ulong _localID;
 
-    private void Start()
+     void Start()
     {
         if (NetworkManager.Singleton.IsServer)
         {
@@ -22,9 +22,9 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    private void Update()
+     void Update()
     {
-        var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0,0);
         MasterManager.Singleton.RequestMoveServerRpc(_localID, dir);
 
         if (Input.GetKeyDown(KeyCode.Space))
