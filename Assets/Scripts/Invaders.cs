@@ -1,7 +1,10 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class Invaders : MonoBehaviour
+public class Invaders : NetworkBehaviour
 {
+    public GameObject mainParent;
+    
     [Header("Invaders")]
     public Invader[] prefabs = new Invader[5];
     public AnimationCurve speed = new AnimationCurve();
@@ -20,10 +23,11 @@ public class Invaders : MonoBehaviour
     {
         initialPosition = transform.position;
 
-        CreateInvaderGrid();
+        RequestCreateInvaderGridServerRpc();
     }
 
-    private void CreateInvaderGrid()
+    [ServerRpc (RequireOwnership = false)]
+    private void RequestCreateInvaderGridServerRpc()
     {
         for (int i = 0; i < rows; i++)
         {
@@ -37,6 +41,8 @@ public class Invaders : MonoBehaviour
             {
                 // Create a new invader and parent it to this transform
                 Invader invader = Instantiate(prefabs[i], transform);
+                var obj = invader.GetComponent<NetworkObject>();
+                obj.Spawn();
 
                 // Calculate and set the position of the invader in the row
                 Vector3 position = rowPosition;
@@ -48,6 +54,7 @@ public class Invaders : MonoBehaviour
 
     private void Start()
     {
+        
         InvokeRepeating(nameof(MissileAttack), missileSpawnRate, missileSpawnRate);
     }
 
@@ -79,42 +86,42 @@ public class Invaders : MonoBehaviour
 
     private void Update()
     {
-        // Calculate the percentage of invaders killed
-        int totalCount = rows * columns;
-        int amountAlive = GetAliveCount();
-        int amountKilled = totalCount - amountAlive;
-        float percentKilled = (float)amountKilled / (float)totalCount;
-
-        // Evaluate the speed of the invaders based on how many have been killed
-        float speed = this.speed.Evaluate(percentKilled);
-        transform.position += direction * speed * Time.deltaTime;
-
-        // Transform the viewport to world coordinates so we can check when the
-        // invaders reach the edge of the screen
-        Vector3 leftEdge = Camera.main.ViewportToWorldPoint(Vector3.zero);
-        Vector3 rightEdge = Camera.main.ViewportToWorldPoint(Vector3.right);
-
-        // The invaders will advance to the next row after reaching the edge of
-        // the screen
-        foreach (Transform invader in transform)
-        {
-            // Skip any invaders that have been killed
-            if (!invader.gameObject.activeInHierarchy) {
-                continue;
-            }
-
-            // Check the left edge or right edge based on the current direction
-            if (direction == Vector3.right && invader.position.x >= (rightEdge.x - 1f))
-            {
-                AdvanceRow();
-                break;
-            }
-            else if (direction == Vector3.left && invader.position.x <= (leftEdge.x + 1f))
-            {
-                AdvanceRow();
-                break;
-            }
-        }
+        // // Calculate the percentage of invaders killed
+        // int totalCount = rows * columns;
+        // int amountAlive = GetAliveCount();
+        // int amountKilled = totalCount - amountAlive;
+        // float percentKilled = (float)amountKilled / (float)totalCount;
+        //
+        // // Evaluate the speed of the invaders based on how many have been killed
+        // float speed = this.speed.Evaluate(percentKilled);
+        // transform.position += direction * (speed * Time.deltaTime);
+        //
+        // // Transform the viewport to world coordinates so we can check when the
+        // // invaders reach the edge of the screen
+        // Vector3 leftEdge = Camera.main.ViewportToWorldPoint(Vector3.zero);
+        // Vector3 rightEdge = Camera.main.ViewportToWorldPoint(Vector3.right);
+        //
+        // // The invaders will advance to the next row after reaching the edge of
+        // // the screen
+        // foreach (Transform invader in transform)
+        // {
+        //     // Skip any invaders that have been killed
+        //     if (!invader.gameObject.activeInHierarchy) {
+        //         continue;
+        //     }
+        //
+        //     // Check the left edge or right edge based on the current direction
+        //     if (direction == Vector3.right && invader.position.x >= (rightEdge.x - 1f))
+        //     {
+        //         AdvanceRow();
+        //         break;
+        //     }
+        //     else if (direction == Vector3.left && invader.position.x <= (leftEdge.x + 1f))
+        //     {
+        //         AdvanceRow();
+        //         break;
+        //     }
+        // }
     }
 
     private void AdvanceRow()

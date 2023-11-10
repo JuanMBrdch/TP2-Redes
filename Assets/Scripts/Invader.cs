@@ -1,9 +1,10 @@
 using UnityEngine;
+using Unity.Netcode;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class Invader : MonoBehaviour
+public class Invader : NetworkBehaviour
 {
     public SpriteRenderer spriteRenderer { get; private set; }
     public Sprite[] animationSprites = new Sprite[0];

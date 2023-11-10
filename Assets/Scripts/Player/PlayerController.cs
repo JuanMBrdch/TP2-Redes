@@ -17,8 +17,6 @@ public class PlayerController : NetworkBehaviour
         {
             _localID = NetworkManager.Singleton.LocalClientId;
             var userTag = PlayerPrefs.GetString("Nickname");
-            print("Client: " + userTag);
-            MasterManager.Singleton.RequestSpawnPlayerServerRpc(_localID, userTag);
         }
     }
 

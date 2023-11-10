@@ -21,7 +21,7 @@ public class Projectile : NetworkBehaviour
 
     private void Update()
     {
-        transform.position += direction * speed * Time.deltaTime;
+        transform.position += direction * (speed * Time.deltaTime);
     }
 
 
@@ -39,14 +39,14 @@ public class Projectile : NetworkBehaviour
         Destroy();
     }
 
-    void Destroy()
+    private void Destroy()
     {
         var netObj = GetComponent<NetworkObject>();
         netObj.Despawn(true);
         Destroy(gameObject);
     }
 
-    IEnumerator WaitToDestroy()
+    private IEnumerator WaitToDestroy()
     {
         yield return new WaitForSeconds(timeToDestroy);
         Destroy();

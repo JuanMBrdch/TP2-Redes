@@ -13,8 +13,8 @@ public class PlayerModel : NetworkBehaviour
     public NetworkVariable<int> team;
     public NetworkVariable<FixedString128Bytes> nickname;
     public NetworkVariable<CustomData> customData;
-    Rigidbody2D _rb;
-    Vector3 dir;
+    private Rigidbody2D _rb;
+    private Vector3 dir;
     public Vector3 direction = Vector3.up;
 
     private void Awake()
@@ -31,11 +31,13 @@ public class PlayerModel : NetworkBehaviour
         nickname.OnValueChanged += OnNicknameChange;
         customData.OnValueChanged += OnCustomDataChange;
     }
-    void OnCustomDataChange(CustomData prev, CustomData next)
+
+    private void OnCustomDataChange(CustomData prev, CustomData next)
     {
         print("Nickname: " + next.nickname + "  Score: " + next.score + "  IsDead: " + next.isDead);
     }
-    void OnNicknameChange(FixedString128Bytes prev, FixedString128Bytes next)
+
+    private void OnNicknameChange(FixedString128Bytes prev, FixedString128Bytes next)
     {
         print("OnNicknameChange: " + next);
     }
@@ -45,22 +47,19 @@ public class PlayerModel : NetworkBehaviour
         dir.y = _rb.velocity.y;
         _rb.velocity = dir;
     }
-    public void look(Vector3 dir)
-    {
-        dir.y = 0;
-        transform.forward = dir;
-    }
+    // public void look(Vector3 dir)
+    // {
+    //     dir.y = 0;
+    //     transform.forward = dir;
+    // }
     public void Shoot()
     {
-        var dir = transform.forward;
-        var netObj = Instantiate(bulletPrefab, transform.position + direction * speed * Time.deltaTime, transform.rotation).GetComponent<NetworkObject>();
+        //var dir = transform.forward;
+        var netObj = Instantiate(bulletPrefab, transform.position + direction * (speed * Time.deltaTime), transform.rotation).GetComponent<NetworkObject>();
         netObj.Spawn();
         //netObj.GetComponent<Bullet>().Shoot(this, dir);
     }
-    //void TakeDamage(int dmg)
-    //{
-    //    life.Value -= dmg;
-    //}
+    
     public void TakeDamage()
     {
         if (NetworkManager.Singleton.IsServer)

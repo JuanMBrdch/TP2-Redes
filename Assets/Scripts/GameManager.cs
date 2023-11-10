@@ -58,7 +58,8 @@ public sealed class GameManager : MonoBehaviour
         invaders.ResetInvaders();
         invaders.gameObject.SetActive(true);
 
-        for (int i = 0; i < bunkers.Length; i++) {
+        for (int i = 0; i < bunkers.Length; i++) 
+        {
             bunkers[i].ResetBunker();
         }
 
@@ -67,7 +68,7 @@ public sealed class GameManager : MonoBehaviour
 
     private void Respawn()
     {
-        Vector3 position = player.transform.position;
+        var position = player.transform.position;
         position.x = 0f;
         player.transform.position = position;
         player.gameObject.SetActive(true);
