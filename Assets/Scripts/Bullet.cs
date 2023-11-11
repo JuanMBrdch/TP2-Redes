@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class Bullet : NetworkBehaviour
 {
-    public float speed;
+    public float speed = 10;
     public float timeToDestroy = 5;
-    Rigidbody _rb;
+    Rigidbody2D _rb;
     PlayerModel _ownerModel;
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody2D>();
 
     }
     //private void Update()
@@ -37,7 +37,7 @@ public class Bullet : NetworkBehaviour
         netObj.Despawn(true);
         Destroy(gameObject);
     }
-    public void Shoot(PlayerModel ownerModel, Vector3 dir)
+    public void Shoot(PlayerModel ownerModel, Vector2 dir)
     {
         _ownerModel = ownerModel;
         _rb.velocity = dir * speed;

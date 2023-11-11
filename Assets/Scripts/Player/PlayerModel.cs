@@ -54,10 +54,10 @@ public class PlayerModel : NetworkBehaviour
     // }
     public void Shoot()
     {
-        //var dir = transform.forward;
-        var netObj = Instantiate(bulletPrefab, transform.position + direction * (speed * Time.deltaTime), transform.rotation).GetComponent<NetworkObject>();
+        var dir = transform.up;
+        var netObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity).GetComponent<NetworkObject>();
         netObj.Spawn();
-        //netObj.GetComponent<Bullet>().Shoot(this, dir);
+        netObj.GetComponent<Bullet>().Shoot(this, dir);
     }
     
     public void TakeDamage()
