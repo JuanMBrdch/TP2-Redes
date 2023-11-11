@@ -169,5 +169,12 @@ public class Invaders : NetworkBehaviour
 
         return count;
     }
-
+   
+    public void Shoot()
+    {
+        var dir = transform.up;
+        var netObj = Instantiate(missilePrefab, transform.position, Quaternion.identity).GetComponent<NetworkObject>();
+        netObj.Spawn();
+        netObj.GetComponent<Projectile>().Shoot(this, dir);
+    }
 }

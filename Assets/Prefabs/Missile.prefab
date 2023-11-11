@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -8601027780861728792}
   - component: {fileID: 5048512893512326460}
   - component: {fileID: 8902765901019596965}
+  - component: {fileID: 6750695555705471915}
   m_Layer: 8
   m_Name: Missile
   m_TagString: Untagged
@@ -196,9 +197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c800c8260db03c438ca5760aacb1871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: -1, z: 0}
-  speed: 30
-  timeToDestroy: 5
+  speed: 14.43
+  timeToDestroy: 20
 --- !u!114 &8902765901019596965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,3 +229,15 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &6750695555705471915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660472559675324131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
