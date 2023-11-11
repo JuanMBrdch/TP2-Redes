@@ -38,7 +38,7 @@ public class Invader : NetworkBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Laser")) {
-            GameManager.Instance.OnInvaderKilled(this);
+            //GameManager.Instance.OnInvaderKilled(this);
         } else if (other.gameObject.layer == LayerMask.NameToLayer("Boundary")) {
             GameManager.Instance.OnBoundaryReached();
         }

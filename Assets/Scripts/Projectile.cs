@@ -3,40 +3,38 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(BoxCollider2D))]
 public class Projectile : NetworkBehaviour
 {
-    public new BoxCollider2D collider { get; private set; }
-    public Vector3 direction = Vector3.up;
-    public float speed = 20f;
-    Rigidbody2D _rb;
-    PlayerModel _ownerModel;
+    public float speed = 10;
     public float timeToDestroy = 5;
-
+    Rigidbody2D _rb;
+    Invaders _ownerModel;
     private void Awake()
     {
-        collider = GetComponent<BoxCollider2D>();
-    }
+        _rb = GetComponent<Rigidbody2D>();
 
+    }
     private void Update()
     {
-        transform.position += direction * (speed * Time.deltaTime);
+        if (!NetworkManager.Singleton.IsServer) return;
     }
-
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!NetworkManager.Singleton.IsServer) return;
-        //if (!IsOwner) return;
+
         var playerModel = other.GetComponent<PlayerModel>();
         if (playerModel == _ownerModel) return;
-        if (playerModel != null)
-        {
-            playerModel.TakeDamage();
-        }
 
-        Destroy();
+        var netObj = other.GetComponent<NetworkObject>();
+        if (netObj != null && netObj.IsSpawned)
+        {
+            if (playerModel != null)
+            {
+                playerModel.TakeDamage();
+            }
+           // Destroy();
+        }
     }
 
     private void Destroy()
@@ -45,25 +43,16 @@ public class Projectile : NetworkBehaviour
         netObj.Despawn(true);
         Destroy(gameObject);
     }
-
-    private IEnumerator WaitToDestroy()
+    public void Shoot(Invaders ownerModel, Vector2 dir)
+    {
+        _ownerModel = ownerModel;
+        _rb.velocity = -dir * speed;
+        StartCoroutine(WaitToDestroy());
+    }
+    IEnumerator WaitToDestroy()
     {
         yield return new WaitForSeconds(timeToDestroy);
         Destroy();
     }
-
-    //private void OnTriggerStay2D(Collider2D other)
-    //{
-    //    CheckCollision(other);
-    //}
-
-    //private void CheckCollision(Collider2D other)
-    //{
-    //    Bunker bunker = other.gameObject.GetComponent<Bunker>();
-
-    //    if (bunker == null || bunker.CheckCollision(collider, transform.position)) {
-    //        Destroy(gameObject);
-    //    }
-    //}
 
 }

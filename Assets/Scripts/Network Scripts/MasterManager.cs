@@ -9,15 +9,16 @@ public class MasterManager : NetworkBehaviour
     public PlayerList playerList;
     Dictionary<ulong, PlayerModel> _dic = new Dictionary<ulong, PlayerModel>();
     Dictionary<PlayerModel, ulong> _dicInverse = new Dictionary<PlayerModel, ulong>();
-
+    public Invaders invaders;
     [SerializeField] private Transform zone1;
     [SerializeField] private Transform zone2;
     [SerializeField] private Transform zone3;
     [SerializeField] private Transform zone4;
     public List<Transform> spawnAreas = new List<Transform>();
     private List<Transform> availableSpawnAreas = new List<Transform>();
-    
-    
+    private float _missileTimer = 0f;
+
+
     private static MasterManager _instance;
     public static MasterManager Singleton => _instance;
 
@@ -82,7 +83,12 @@ public class MasterManager : NetworkBehaviour
         print("Chau");
         _dic[id].Shoot();
     }
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestShootEnemyServerRpc(ulong id)
+    {
 
+        invaders.Shoot();
+    }
     public void RemovePlayer(PlayerModel player)
     {
         var id = _dicInverse[player];
