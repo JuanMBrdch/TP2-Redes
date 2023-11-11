@@ -1429,6 +1429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cee9fddd5f2332443b8136eab5b697ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 4600337051534240836, guid: 4a81c84ee7dea6d49a91f3fc916f3543, type: 3}
   playerPrefab: {fileID: 1528795836143559437, guid: 66bd06b2a6a4e7145979bcc821e27b3d, type: 3}
   playerList: {fileID: 1475334423}
   invaders: {fileID: 962212320}

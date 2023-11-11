@@ -5,10 +5,13 @@ using Random = UnityEngine.Random;
 
 public class MasterManager : NetworkBehaviour
 {
+    public NetworkObject enemyPrefab;
     public NetworkObject playerPrefab;
     public PlayerList playerList;
     Dictionary<ulong, PlayerModel> _dic = new Dictionary<ulong, PlayerModel>();
     Dictionary<PlayerModel, ulong> _dicInverse = new Dictionary<PlayerModel, ulong>();
+    Dictionary<Invader, ulong> _dicInverseEnemy = new Dictionary<Invader, ulong>();
+    Dictionary<ulong, Invader> _dicEnemy = new Dictionary<ulong, Invader>();
     public Invaders invaders;
     [SerializeField] private Transform zone1;
     [SerializeField] private Transform zone2;
@@ -36,7 +39,7 @@ public class MasterManager : NetworkBehaviour
 
     private void Start()
     {
-        spawnAreas = new List<Transform>{ zone1, zone2, zone3, zone4 };
+        spawnAreas = new List<Transform> { zone1, zone2, zone3, zone4 };
         availableSpawnAreas.AddRange(spawnAreas);
     }
 
@@ -96,6 +99,28 @@ public class MasterManager : NetworkBehaviour
         _dic.Remove(id);
     }
 
+    public void RemoveEnemy(Invader invader)
+    {
+        var id = _dicInverseEnemy[invader];
+        _dicInverseEnemy.Remove(invader);
+        _dicEnemy.Remove(id);
+    } 
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RemoveEnemyServerRpc()
+    {
+        var invader = FindObjectsByType<Invader>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID);
+        for (int i = 0; i < invader.Length; i++)
+        {
+           
+                var id = _dicInverseEnemy[invader[i]];
+                _dicInverseEnemy.Remove(invader[i]);
+                _dicEnemy.Remove(id);
+                invader[i].GetComponent<NetworkObject>().Despawn(true);
+                break;
+            
+        }
+    }
     [ServerRpc(RequireOwnership = false)]
     public void RemovePlayerServerRpc(ulong networkObjectId)
     {
