@@ -1,19 +1,24 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class MasterManager : MonoBehaviour
+public class MasterManager : NetworkBehaviour
 {
     public NetworkObject playerPrefab;
-    //public CameraController cameraController;
     public PlayerList playerList;
-
-    private static MasterManager _instance;
     Dictionary<ulong, PlayerModel> _dic = new Dictionary<ulong, PlayerModel>();
     Dictionary<PlayerModel, ulong> _dicInverse = new Dictionary<PlayerModel, ulong>();
+
+    [SerializeField] private Transform zone1;
+    [SerializeField] private Transform zone2;
+    [SerializeField] private Transform zone3;
+    [SerializeField] private Transform zone4;
+    public List<Transform> spawnAreas = new List<Transform>();
+    private List<Transform> availableSpawnAreas = new List<Transform>();
+    
+    
+    private static MasterManager _instance;
     public static MasterManager Singleton => _instance;
 
     private void Awake()
@@ -28,15 +33,22 @@ public class MasterManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        spawnAreas = new List<Transform>{ zone1, zone2, zone3, zone4 };
+        availableSpawnAreas.AddRange(spawnAreas);
+    }
+
     [ServerRpc(RequireOwnership = false)]
     public void RequestSpawnPlayerServerRpc(ulong id, string nickname)
     {
-        print("Server Nickname:" + nickname);
+        // print("Server Nickname:" + nickname);
 
-        var obj = Instantiate<NetworkObject>(playerPrefab);
-        obj.transform.position = Vector3.up;
-
+        var randomIndex = Random.Range(0, availableSpawnAreas.Count);
+        var spawnPoint = availableSpawnAreas[randomIndex];
+        var obj = Instantiate<NetworkObject>(playerPrefab, spawnPoint);
         obj.Spawn();
+        availableSpawnAreas.RemoveAt(randomIndex);
 
         var playerModel = obj.GetComponent<PlayerModel>();
         _dic[id] = playerModel;
@@ -53,10 +65,6 @@ public class MasterManager : MonoBehaviour
         playerList.AddPlayer(playerModel);
 
         var objID = obj.NetworkObjectId;
-
-        var p = new ClientRpcParams();
-        p.Send.TargetClientIds = new ulong[] { id };
-        //SetCameraClientRpc(objID, p);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -64,7 +72,6 @@ public class MasterManager : MonoBehaviour
     {
         if (!_dic.ContainsKey(id)) return;
         _dic[id].Move(dir);
-        _dic[id].look(dir);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -99,20 +106,7 @@ public class MasterManager : MonoBehaviour
             }
         }
     }
-
-    /*[ClientRpc]
-    public void SetCameraClientRpc(ulong objID, ClientRpcParams p)
-    {
-        var players = FindObjectsByType<PlayerModel>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID);
-        for (int i = 0; i < players.Length; i++)
-        {
-            if (players[i].NetworkObjectId == objID)
-            {
-                cameraController.SetTarget(players[i].transform);
-                break;
-            }
-        }
-    }*/
+    
     public ulong GetID(PlayerModel model)
     {
         return _dicInverse[model];

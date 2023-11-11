@@ -24,10 +24,7 @@ public class NetworkController : MonoBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
         NetworkManager.Singleton.OnTransportFailure += OnTransportFailure;
     }
-    private void Awake()
-    {
-
-    }
+    
     public void OnHost()
     {
         NetworkManager.Singleton.OnServerStarted += OnServerStarted;
@@ -49,13 +46,11 @@ public class NetworkController : MonoBehaviour
 
         SetInteractable(false);
         NetworkManager.Singleton.StartClient();
-        //PlayerPrefs.SetInt("Bool", 0);
-        //PlayerPrefs.GetInt("Bool");
         PlayerPrefs.SetString("Nickname", nicknameField.text);
     }
     void LoadScene()
     {
-        NetworkManager.Singleton.SceneManager.LoadScene("Gameplay", LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("Space Invaders", LoadSceneMode.Single);
     }
 
     void SetInteractable(bool v)
@@ -66,7 +61,6 @@ public class NetworkController : MonoBehaviour
     }
     void OnServerStarted()
     {
-        print("Server Seba");
         if (NetworkManager.Singleton.IsServer)
         {
             LoadScene();

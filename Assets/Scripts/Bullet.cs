@@ -22,18 +22,16 @@ public class Bullet : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!NetworkManager.Singleton.IsServer) return;
-        //if (!IsOwner) return;
         var playerModel = other.GetComponent<PlayerModel>();
         if (playerModel == _ownerModel) return;
         if (playerModel != null)
         {
             playerModel.TakeDamage();
         }
-
         Destroy();
-
     }
-    void Destroy()
+
+    private void Destroy()
     {
         var netObj = GetComponent<NetworkObject>();
         netObj.Despawn(true);
