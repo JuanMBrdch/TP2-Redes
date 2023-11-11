@@ -23,5 +23,10 @@ public class PlayerFAController : MonoBehaviour
     {
         var dir = new Vector3(Input.GetAxisRaw("Horizontal"),0,0);
         MasterManager.Singleton.RequestMoveServerRpc(_id, dir);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            MasterManager.Singleton.RequestShootServerRpc(_id);
+            Debug.Log("dispara");
+        }
     }
 }
