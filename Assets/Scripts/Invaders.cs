@@ -12,7 +12,8 @@ public class Invaders : NetworkBehaviour
     public Invader[] prefabs = new Invader[5];
     public AnimationCurve speed = new AnimationCurve();
     public Transform InitialPosition;
-    
+    private ulong _id;
+
     [Header("Grid")]
     public int rows = 5;
     public int columns = 11;
@@ -29,7 +30,7 @@ public class Invaders : NetworkBehaviour
 
     float gridCount = 0;
     [ServerRpc(RequireOwnership = false)]
-    private void RequestCreateInvaderGridServerRpc()
+    private void RequestCreateInvaderGridServerRpc(ulong id)
     {
         if (gridCount > 0) return;
         gridCount++;
@@ -49,7 +50,9 @@ public class Invaders : NetworkBehaviour
                 NetworkObj.transform.position = position;
                 NetworkObj.Spawn();
                 _invadersDic.Add(obj.NetworkObjectId, NetworkObj.gameObject.GetComponent<Invader>());
-
+                var invaderModel = obj.GetComponent<Invader>();
+                MasterManager.Singleton._dicEnemy[id] = invaderModel;
+                MasterManager.Singleton._dicInverseEnemy[invaderModel] = id;
                 position = new Vector3(obj.gameObject.transform.position.x + DistanceX, diffDistanceY);
                 InitialPosition.position = new Vector3(InitialPosition.position.x , position.y);
             }
@@ -60,9 +63,19 @@ public class Invaders : NetworkBehaviour
 
     private void Start()
     {
-        RequestCreateInvaderGridServerRpc();
 
-        InvokeRepeating(nameof(RequestMissileAttackServerRpc), missileSpawnRate, missileSpawnRate);
+        if (NetworkManager.Singleton.IsServer)
+        {
+            this.enabled = false;
+        }
+        else
+        {
+            _id = NetworkManager.Singleton.LocalClientId;
+            RequestCreateInvaderGridServerRpc(_id);
+
+            //InvokeRepeating(nameof(RequestMissileAttackServerRpc), missileSpawnRate, missileSpawnRate);
+        }
+        
     }
     [ServerRpc(RequireOwnership = false)]
     private void RequestMissileAttackServerRpc()
@@ -177,4 +190,5 @@ public class Invaders : NetworkBehaviour
         netObj.Spawn();
         netObj.GetComponent<Projectile>().Shoot(this, dir);
     }
+    
 }

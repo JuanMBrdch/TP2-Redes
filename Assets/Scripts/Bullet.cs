@@ -24,12 +24,14 @@ public class Bullet : NetworkBehaviour
     {
         if (!NetworkManager.Singleton.IsServer) return;
         var playerModel = other.GetComponent<PlayerModel>();
+        var enemyModel = other.GetComponent<Invader>();
+
         if (playerModel == _ownerModel) return;
-        if (playerModel != null)
+        if (enemyModel != null)
         {
-            playerModel.TakeDamage();
+            enemyModel.TakeDamage();
         }
-       // Destroy();
+        Destroy();
     } 
 
     private void Destroy()
