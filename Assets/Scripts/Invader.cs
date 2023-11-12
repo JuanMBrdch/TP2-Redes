@@ -34,8 +34,22 @@ public class Invader : NetworkBehaviour
 
         spriteRenderer.sprite = animationSprites[animationFrame];
     }
+    /* public void TakeDamage()
+     {
+         if (NetworkManager.Singleton.IsServer)
+         {
+             MasterManager.Singleton.RemoveEnemy(this);
+             GetComponent<NetworkObject>().Despawn(true);
+         }
+         else
+         {
+             MasterManager.Singleton.RemoveEnemyServerRpc();
+         }
+     }*/
+
     public void TakeDamage()
     {
+
         if (NetworkManager.Singleton.IsServer)
         {
             MasterManager.Singleton.RemoveEnemy(this);
@@ -43,7 +57,7 @@ public class Invader : NetworkBehaviour
         }
         else
         {
-            MasterManager.Singleton.RemoveEnemyServerRpc();
+            MasterManager.Singleton.RemoveEnemyServerRpc(NetworkObjectId);
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
