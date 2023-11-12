@@ -14,10 +14,10 @@ public class Projectile : NetworkBehaviour
         _rb = GetComponent<Rigidbody2D>();
 
     }
-    private void Update()
-    {
-        if (!NetworkManager.Singleton.IsServer) return;
-    }
+    //private void Update()
+    //{
+    //   if (!NetworkManager.Singleton.IsServer) return;
+    // }
 
     private void OnTriggerEnter2D(Collider2D other)
     {

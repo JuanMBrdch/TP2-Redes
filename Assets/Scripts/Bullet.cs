@@ -29,8 +29,8 @@ public class Bullet : NetworkBehaviour
         {
             playerModel.TakeDamage();
         }
-        Destroy();
-    }
+       // Destroy();
+    } 
 
     private void Destroy()
     {
