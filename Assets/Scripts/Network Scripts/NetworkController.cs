@@ -27,6 +27,7 @@ public class NetworkController : MonoBehaviour
     
     public void OnHost()
     {
+        PlayerPrefs.SetString("Nickname", nicknameField.text);
         NetworkManager.Singleton.OnServerStarted += OnServerStarted;
         _pass = passwordField.text;
         SetInteractable(false);
@@ -34,6 +35,7 @@ public class NetworkController : MonoBehaviour
     }
     public void OnServer()
     {
+        PlayerPrefs.SetString("Nickname", nicknameField.text);
         NetworkManager.Singleton.OnServerStarted += OnServerStarted;
         SetInteractable(false);
         _pass = passwordField.text;
@@ -41,12 +43,12 @@ public class NetworkController : MonoBehaviour
     }
     public void OnClient()
     {
+        PlayerPrefs.SetString("Nickname", nicknameField.text);
         NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.ASCIIEncoding.ASCII.GetBytes(passwordField.text);
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectedCallback;
 
         SetInteractable(false);
         NetworkManager.Singleton.StartClient();
-        PlayerPrefs.SetString("Nickname", nicknameField.text);
     }
     void LoadScene()
     {

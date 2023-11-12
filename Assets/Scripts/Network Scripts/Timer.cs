@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,15 +7,31 @@ using UnityEngine.UI;
 
 public class Timer : NetworkBehaviour
 {
-    private float timer;
-    private Text timerText;
-    private float timerRefresh;
+    [SerializeField] private Text timerText;
+    [SerializeField] private float timerRefresh;
     private float currentTimerRefresh;
+    private float timer;
+
+    private static Timer _instance;
+    public static Timer Singleton => _instance;
+
+    
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
 
     private void Update()
     {
         timer += Time.deltaTime;
-        timerText.text = "Time :" + timer;
+        timerText.text = "Time :" + (int) timer;
 
         if (IsServer)
         {

@@ -51,7 +51,7 @@ public class Invader : NetworkBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Laser")) {
             //GameManager.Instance.OnInvaderKilled(this);
         } else if (other.gameObject.layer == LayerMask.NameToLayer("Boundary")) {
-            GameManager.Instance.OnBoundaryReached();
+            //GameManager.Instance.OnBoundaryReached();
         }
     }
 

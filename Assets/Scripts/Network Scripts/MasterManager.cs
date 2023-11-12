@@ -46,8 +46,6 @@ public class MasterManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void RequestSpawnPlayerServerRpc(ulong id, string nickname)
     {
-        // print("Server Nickname:" + nickname);
-
         var randomIndex = Random.Range(0, availableSpawnAreas.Count);
         var spawnPoint = availableSpawnAreas[randomIndex];
         var obj = Instantiate<NetworkObject>(playerPrefab, spawnPoint);
@@ -89,7 +87,6 @@ public class MasterManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void RequestShootEnemyServerRpc(ulong id)
     {
-
         invaders.Shoot();
     }
     public void RemovePlayer(PlayerModel player)
