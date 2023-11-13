@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -7,11 +9,12 @@ using UnityEngine.UI;
 
 public class ChatManager : NetworkBehaviour
 {
-    private ulong _localId;
-    public ScrollRect scrollRect;
     public TextMeshProUGUI content;
+    public TMP_InputField inputFieldMessage;
+    public ScrollRect scrollRect;
     Dictionary<ulong, string> _nicknames = new Dictionary<ulong, string>();
     Dictionary<string, ulong> _nicknamesInverse = new Dictionary<string, ulong>();
+    ulong _localId;
     
     private static ChatManager _instance;
     public static ChatManager Singleton => _instance;
