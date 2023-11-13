@@ -88,7 +88,6 @@ public class MysteryShip : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Laser"))
         {
             Despawn();
-            //GameManager.Instance.OnMysteryShipKilled(this);
         }
     }
 

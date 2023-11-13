@@ -34,7 +34,6 @@ public class Invaders : NetworkBehaviour
     {
         if (gridCount > 0) return;
         gridCount++;
-        Debug.Log("eeeeee");
         for (int i = 0; i < rows; i++)
         {
             float diffDistanceY = InitialPosition.position.y - DistanceY;

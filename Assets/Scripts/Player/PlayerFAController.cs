@@ -32,7 +32,6 @@ public class PlayerFAController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             MasterManager.Singleton.RequestShootServerRpc(_id);
-            Debug.Log("dispara");
         }
 
         for (int i = 0; i < msjInputs.Length; i++)
@@ -42,25 +41,5 @@ public class PlayerFAController : MonoBehaviour
                 ChatManager.Singleton.SendChatMessage(preMsjs[i]);
             }
         }
-        
-        // if (Input.GetKeyDown(KeyCode.Alpha1))
-        // {
-        //     ChatManager.Singleton.SendChatMessage(preMsjs[0]);
-        // }
-        //
-        // if (Input.GetKeyDown(KeyCode.Alpha2))
-        // {
-        //     ChatManager.Singleton.SendChatMessage(preMsjs[1]);
-        // }
-        //
-        // if (Input.GetKeyDown(KeyCode.Alpha3))
-        // {
-        //     ChatManager.Singleton.SendChatMessage(preMsjs[2]);
-        // }
-        //
-        // if (Input.GetKeyDown(KeyCode.Alpha4))
-        // {
-        //     ChatManager.Singleton.SendChatMessage(preMsjs[3]);
-        // }
     }
 }
