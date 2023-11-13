@@ -5,17 +5,25 @@ using Unity.Netcode;
 
 public class LimitDown : NetworkBehaviour
 {
+    private ulong _id;
+    private void Start()
+    {
+       
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        var enemyModel = other.GetComponent<InvaderSinusoidal>();
-        if (enemyModel != null)
+        if (IsServer)
         {
-            enemyModel.ComeBack();
-            Debug.Log("toma");
-        }
-        else
-        {
-            Debug.Log("No se encontró el componente InvaderSinusoidal");
+            var networkObject = other.GetComponent<NetworkObject>();
+            if (networkObject != null)
+            {
+                var invaderSinusoidal = networkObject.GetComponent<InvaderSinusoidal>();
+                if (invaderSinusoidal != null)
+                {
+                    MasterManager.Singleton.ComeBackInvaderServerRpc(_id);
+                    Debug.Log("aa");
+                }
+            }
         }
     }
 }

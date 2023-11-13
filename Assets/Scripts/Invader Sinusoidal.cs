@@ -16,11 +16,13 @@ public class InvaderSinusoidal : NetworkBehaviour
     private bool correcto = true;
     private float tiempoSeguir = 0f;
     private float tiempoLimite = 10f;
+    private ulong _id;
 
     void Start()
     {
         // Almacena la posición inicial antes de iniciar el movimiento sinusoidal
         startPosition = transform.position;
+        
     }
 
     void Update()
@@ -61,23 +63,16 @@ public class InvaderSinusoidal : NetworkBehaviour
         }
     }
 
+
     public void ComeBack()
     {
         if (tpPlace != null)
         {
             correcto = false;
-
-            // Almacena la posición inicial antes de iniciar el movimiento sinusoidal
             startPosition = tpPlace.transform.position;
-
-            // Mueve el objeto a la posición de tpPlace
             transform.position = startPosition;
-
-            Debug.Log("llama");
+            Debug.Log("LLAMA");
         }
-        else
-        {
-            Debug.LogWarning("tpPlace no está asignado en el script SnakeInvader");
-        }
+       
     }
 }

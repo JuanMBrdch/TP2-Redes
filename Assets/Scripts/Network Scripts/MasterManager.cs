@@ -13,6 +13,7 @@ public class MasterManager : NetworkBehaviour
     public Dictionary<Invader, ulong> _dicInverseEnemy = new Dictionary<Invader, ulong>();
     public Dictionary<ulong, Invader> _dicEnemy = new Dictionary<ulong, Invader>();
     public Invaders invaders;
+    public InvaderSinusoidal invaderEspecial;
     [SerializeField] private Transform zone1;
     [SerializeField] private Transform zone2;
     [SerializeField] private Transform zone3;
@@ -135,7 +136,13 @@ public class MasterManager : NetworkBehaviour
             }
         }
     }
-    
+    [ServerRpc(RequireOwnership = false)]
+    public void ComeBackInvaderServerRpc(ulong id)
+    {
+            invaderEspecial.ComeBack();
+        Debug.Log("MasterManager");
+    }
+
     public ulong GetID(PlayerModel model)
     {
         return _dicInverse[model];
