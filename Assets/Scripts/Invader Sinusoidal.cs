@@ -6,36 +6,78 @@ using UnityEngine.Serialization;
 
 public class InvaderSinusoidal : NetworkBehaviour
 {
-    public float amplitude = 1f;
-    public float frequency;
-    public float speed;
-    public float speedY;
+    public float amplitudX = 2f;
+    public float velocidadX = 2f;
+    public float velocidadY = 1f;
+    public GameObject tpPlace;
 
-    private float time = 0f;
-    
-    [SerializeField] private Vector3 startPos;
+    private float tiempo = 0f;
+    private Vector3 startPosition;  // Almacena la posición inicial antes de iniciar el movimiento sinusoidal
+    private bool correcto = true;
+    private float tiempoSeguir = 0f;
+    private float tiempoLimite = 10f;
 
     void Start()
     {
-        if (!MasterManager.Singleton.IsServer)
-        {
-            this.enabled = false;
-        }
-        else
-        {
-            startPos = transform.position;
-        }
+        // Almacena la posición inicial antes de iniciar el movimiento sinusoidal
+        startPosition = transform.position;
     }
 
     void Update()
     {
-        time += Time.deltaTime * speed;
-        var posX = amplitude * Mathf.Sin(time * frequency);
-        transform.position = new Vector3(posX, speedY, 0f);
-        // if (transform.position.y <= Camera.main.transform.localScale.y/2)
-        // {
-        //     transform.position.y += Camera.main.transform.localScale.y;
-        // }
+        if (correcto)
+        {
+            tiempo += Time.deltaTime;
 
+            float desplazamientoX = Mathf.Sin(tiempo * velocidadX) * amplitudX;
+            float desplazamientoY = -tiempo * velocidadY;
+
+            Vector3 nuevaPosicion = startPosition + new Vector3(desplazamientoX, desplazamientoY, 0f);
+
+            transform.position = nuevaPosicion;
+            tiempoSeguir = 0;
+        }
+
+        if (!correcto)
+        {
+            tiempoSeguir += Time.deltaTime;
+        }
+
+        if (tiempoSeguir >= tiempoLimite)
+        {
+            correcto = true;
+
+            // Mueve el objeto a la posición de tpPlace almacenada
+            if (tpPlace != null)
+            {
+                transform.position = tpPlace.transform.position;
+            }
+            else
+            {
+                Debug.LogWarning("tpPlace no está asignado en el script SnakeInvader");
+            }
+
+            tiempo = 0f; // Reinicia el tiempo cuando vuelves al movimiento sinusoidal
+        }
+    }
+
+    public void ComeBack()
+    {
+        if (tpPlace != null)
+        {
+            correcto = false;
+
+            // Almacena la posición inicial antes de iniciar el movimiento sinusoidal
+            startPosition = tpPlace.transform.position;
+
+            // Mueve el objeto a la posición de tpPlace
+            transform.position = startPosition;
+
+            Debug.Log("llama");
+        }
+        else
+        {
+            Debug.LogWarning("tpPlace no está asignado en el script SnakeInvader");
+        }
     }
 }
