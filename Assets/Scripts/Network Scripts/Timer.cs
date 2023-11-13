@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
@@ -6,34 +9,37 @@ public class Timer : NetworkBehaviour
 {
     [SerializeField] private Text timerText;
     [SerializeField] private float timerRefresh;
-    private float _currentTimerRefresh;
-    public float TimerGet { get; private set; }
+    private float currentTimerRefresh;
+    private float timer;
 
-    public static Timer Singleton { get; private set; }
+    private static Timer _instance;
+    public static Timer Singleton => _instance;
 
+    
     private void Awake()
     {
-        if (Singleton != null && Singleton != this)
+        if (_instance != null && _instance != this)
         {
             Destroy(this);
         }
         else
         {
-            Singleton = this;
+            _instance = this;
         }
     }
+
     private void Update()
     {
-        TimerGet += Time.deltaTime;
-        timerText.text = "Time :" + (int) TimerGet;
+        timer += Time.deltaTime;
+        timerText.text = "Time :" + (int) timer;
 
         if (IsServer)
         {
-            _currentTimerRefresh += Time.deltaTime;
-            if (_currentTimerRefresh >= timerRefresh)
+            currentTimerRefresh += Time.deltaTime;
+            if (currentTimerRefresh >= timerRefresh)
             {
-                RefreshTimerClientRpc(TimerGet);
-                _currentTimerRefresh = 0;
+                RefreshTimerClientRpc(timer);
+                currentTimerRefresh = 0;
             }
         }
     }
@@ -41,6 +47,6 @@ public class Timer : NetworkBehaviour
     [ClientRpc]
     private void RefreshTimerClientRpc(float t)
     {
-        TimerGet = t;
+        timer = t;
     }
 }
