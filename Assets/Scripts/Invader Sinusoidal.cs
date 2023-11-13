@@ -15,7 +15,7 @@ public class InvaderSinusoidal : NetworkBehaviour
     private Vector3 startPosition;  // Almacena la posición inicial antes de iniciar el movimiento sinusoidal
     private bool correcto = true;
     private float tiempoSeguir = 0f;
-    private float tiempoLimite = 10f;
+    private float tiempoLimite = 0.01f;
     private ulong _id;
 
     void Start()
@@ -43,6 +43,7 @@ public class InvaderSinusoidal : NetworkBehaviour
         if (!correcto)
         {
             tiempoSeguir += Time.deltaTime;
+
         }
 
         if (tiempoSeguir >= tiempoLimite)
@@ -61,6 +62,8 @@ public class InvaderSinusoidal : NetworkBehaviour
 
             tiempo = 0f; // Reinicia el tiempo cuando vuelves al movimiento sinusoidal
         }
+
+       
     }
 
 

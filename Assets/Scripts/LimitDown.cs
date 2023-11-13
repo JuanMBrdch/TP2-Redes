@@ -6,13 +6,12 @@ using Unity.Netcode;
 public class LimitDown : NetworkBehaviour
 {
     private ulong _id;
-    private void Start()
-    {
-       
-    }
+       public bool tepearse = true;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (IsServer)
+
+        if (NetworkManager.Singleton.IsServer)
         {
             var networkObject = other.GetComponent<NetworkObject>();
             if (networkObject != null)
@@ -20,8 +19,9 @@ public class LimitDown : NetworkBehaviour
                 var invaderSinusoidal = networkObject.GetComponent<InvaderSinusoidal>();
                 if (invaderSinusoidal != null)
                 {
-                    MasterManager.Singleton.ComeBackInvaderServerRpc(_id);
-                    Debug.Log("aa");
+                    tepearse = false;
+                    _id = networkObject.NetworkObjectId;
+                    Debug.Log(_id);
                 }
             }
         }
