@@ -10,8 +10,9 @@ public class MasterManager : NetworkBehaviour
     public PlayerList playerList;
     Dictionary<ulong, PlayerModel> _dic = new Dictionary<ulong, PlayerModel>();
     Dictionary<PlayerModel, ulong> _dicInverse = new Dictionary<PlayerModel, ulong>();
-    public Dictionary<Invader, ulong> _dicInverseEnemy = new Dictionary<Invader, ulong>();
+    
     public Dictionary<ulong, Invader> _dicEnemy = new Dictionary<ulong, Invader>();
+    public Dictionary<Invader, ulong> _dicInverseEnemy = new Dictionary<Invader, ulong>();
     public Invaders invaders;
     [SerializeField] private Transform zone1;
     [SerializeField] private Transform zone2;
@@ -134,6 +135,16 @@ public class MasterManager : NetworkBehaviour
                 break;
             }
         }
+    }
+
+    public int GetPlayerCount()
+    {
+        return _dic.Count;
+    }
+
+    public bool GetPlayer(ulong id)
+    {
+        return _dic.ContainsKey(id);
     }
     
     public ulong GetID(PlayerModel model)
