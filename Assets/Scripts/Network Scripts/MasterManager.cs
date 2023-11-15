@@ -139,10 +139,15 @@ public class MasterManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ComeBackInvaderServerRpc(ulong id)
     {
-            invaderEspecial.ComeBack();
+        invaderEspecial.ComeBack();
         Debug.Log("MasterManager");
     }
 
+    public bool GetPlayer(ulong id)
+    {
+        return _dic.ContainsKey(id);
+    }
+    
     public ulong GetID(PlayerModel model)
     {
         return _dicInverse[model];
