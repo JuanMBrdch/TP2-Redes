@@ -15,7 +15,6 @@ public class PlayerModel : NetworkBehaviour
     public NetworkVariable<CustomData> customData;
     private Rigidbody2D _rb;
     private Vector3 dir;
-    public Vector3 direction = Vector3.up;
 
     private void Awake()
     {
@@ -47,11 +46,7 @@ public class PlayerModel : NetworkBehaviour
         dir.y = _rb.velocity.y;
         _rb.velocity = dir;
     }
-    // public void look(Vector3 dir)
-    // {
-    //     dir.y = 0;
-    //     transform.forward = dir;
-    // }
+    
     public void Shoot()
     {
         var dir = transform.up;

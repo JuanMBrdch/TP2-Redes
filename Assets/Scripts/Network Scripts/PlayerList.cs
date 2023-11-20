@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
-using UnityEngine;
 
 public class PlayerList : NetworkBehaviour
 {
@@ -16,6 +14,7 @@ public class PlayerList : NetworkBehaviour
         playerModel.customData.OnValueChanged += OnCustomDataChanged;
         RefreshUI();
     }
+    
     void OnCustomDataChanged(CustomData prev, CustomData next)
     {
         if (prev.nickname != next.nickname)

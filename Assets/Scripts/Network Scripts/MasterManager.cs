@@ -20,8 +20,7 @@ public class MasterManager : NetworkBehaviour
     [SerializeField] private Transform zone4;
     public List<Transform> spawnAreas = new List<Transform>();
     private List<Transform> availableSpawnAreas = new List<Transform>();
-    private float _missileTimer = 0f;
-
+    public List<Invader> invaderList = new List<Invader>();
 
     private static MasterManager _instance;
     public static MasterManager Singleton => _instance;
@@ -66,8 +65,6 @@ public class MasterManager : NetworkBehaviour
         playerModel.customData.Value = customData;
 
         playerList.AddPlayer(playerModel);
-
-        var objID = obj.NetworkObjectId;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -80,9 +77,7 @@ public class MasterManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void RequestShootServerRpc(ulong id)
     {
-        print("Hola");
         if (!_dic.ContainsKey(id)) return;
-        print("Chau");
         _dic[id].Shoot();
     }
     [ServerRpc(RequireOwnership = false)]
@@ -140,7 +135,6 @@ public class MasterManager : NetworkBehaviour
     public void ComeBackInvaderServerRpc(ulong id)
     {
         invaderEspecial.ComeBack();
-        Debug.Log("MasterManager");
     }
 
     public bool GetPlayer(ulong id)

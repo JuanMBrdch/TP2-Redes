@@ -20,6 +20,10 @@ public class Invader : NetworkBehaviour
 
     private void Start()
     {
+        if (IsServer)
+        {
+            MasterManager.Singleton.invaderList.Add(this);
+        }
         InvokeRepeating(nameof(AnimateSprite), animationTime, animationTime);
     }
 
@@ -36,7 +40,6 @@ public class Invader : NetworkBehaviour
 
     public void TakeDamage()
     {
-
         if (NetworkManager.Singleton.IsServer)
         {
             MasterManager.Singleton.RemoveEnemy(this);

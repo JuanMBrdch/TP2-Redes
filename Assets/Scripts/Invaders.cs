@@ -6,7 +6,6 @@ using Unity.VisualScripting;
 
 public class Invaders : NetworkBehaviour
 {
-    public GameObject mainParent;
     
     [Header("Invaders")]
     public Invader[] prefabs = new Invader[5];
@@ -15,8 +14,8 @@ public class Invaders : NetworkBehaviour
     private ulong _id;
 
     [Header("Grid")]
-    public int rows = 5;
-    public int columns = 11;
+    public int rows;
+    public int columns;
     public float DistanceX;
     public float DistanceY;
 
@@ -42,8 +41,6 @@ public class Invaders : NetworkBehaviour
 
             for (int j = 0; j < columns; j++)
             {
-              
-
                 var obj = Instantiate(prefabs[i]);
                 var NetworkObj = obj.GetComponent<NetworkObject>();
                 NetworkObj.transform.position = position;
@@ -62,7 +59,6 @@ public class Invaders : NetworkBehaviour
 
     private void Start()
     {
-
         if (NetworkManager.Singleton.IsServer)
         {
             this.enabled = false;
@@ -72,17 +68,14 @@ public class Invaders : NetworkBehaviour
             _id = NetworkManager.Singleton.LocalClientId;
             RequestCreateInvaderGridServerRpc(_id);
 
-            //InvokeRepeating(nameof(RequestMissileAttackServerRpc), missileSpawnRate, missileSpawnRate);
+            InvokeRepeating(nameof(RequestMissileAttackServerRpc), missileSpawnRate, missileSpawnRate);
         }
         
     }
     [ServerRpc(RequireOwnership = false)]
     private void RequestMissileAttackServerRpc()
     {
-       int count = Random.Range(MinInvadersAttack, MaxInvadersAttack);
-
-      
-
+        int count = Random.Range(MinInvadersAttack, MaxInvadersAttack);
         foreach(var obj in _invadersDic) 
         {
             if (!obj.Value.gameObject.activeInHierarchy) continue;
@@ -98,13 +91,8 @@ public class Invaders : NetworkBehaviour
                 NetworkObj.Spawn();
 
                 if (count <= 0) return;
-
-                continue;
             }
         }
-     
-
-        return;
     }
 
     private void Update()
@@ -146,41 +134,20 @@ public class Invaders : NetworkBehaviour
         //     }
         // }
     }
-
-    //private void AdvanceRow()
-    //{
-    //    // Flip the direction the invaders are moving
-    //    direction = new Vector3(-direction.x, 0f, 0f);
-
-    //    // Move the entire grid of invaders down a row
-    //    Vector3 position = transform.position;
-    //    position.y -= 1f;
-    //    transform.position = position;
-    //}
-
-    //public void ResetInvaders()
-    //{
-    //    direction = Vector3.right;
-    //    transform.position = initialPosition;
-
-    //    foreach (Transform invader in transform) {
-    //        invader.gameObject.SetActive(true);
-    //    }
-    //}
-
-    public int GetAliveCount()
-    {
-        int count = 0;
-
-        foreach (Transform invader in transform)
-        {
-            if (invader.gameObject.activeSelf) {
-                count++;
-            }
-        }
-
-        return count;
-    }
+    
+    // public int GetAliveCount()
+    // {
+    //     int count = 0;
+    //
+    //     foreach (Transform invader in transform)
+    //     {
+    //         if (invader.gameObject.activeSelf) {
+    //             count++;
+    //         }
+    //     }
+    //
+    //     return count;
+    // }
    
     public void Shoot()
     {
