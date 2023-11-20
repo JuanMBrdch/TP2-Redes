@@ -20,14 +20,9 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-     void Update()
-    {
+     private void Update()
+     {
         var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0,0);
         MasterManager.Singleton.RequestMoveServerRpc(_localID, dir);
-
-       /* if (Input.GetKeyDown(KeyCode.Space))
-        {
-            MasterManager.Singleton.RequestShootServerRpc(_localID);
-        }*/
      }
 }

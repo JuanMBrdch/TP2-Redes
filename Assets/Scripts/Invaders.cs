@@ -28,8 +28,8 @@ public class Invaders : NetworkBehaviour
     Dictionary<ulong, Invader> _invadersDic = new Dictionary<ulong, Invader>();
 
     float gridCount = 0;
-    [ServerRpc(RequireOwnership = false)]
-    private void RequestCreateInvaderGridServerRpc(ulong id)
+    
+    private void CreateInvaderGrid()
     {
         if (gridCount > 0) return;
         gridCount++;
@@ -47,27 +47,21 @@ public class Invaders : NetworkBehaviour
                 NetworkObj.Spawn();
                 _invadersDic.Add(obj.NetworkObjectId, NetworkObj.gameObject.GetComponent<Invader>());
                 var invaderModel = obj.GetComponent<Invader>();
-                MasterManager.Singleton._dicEnemy[id] = invaderModel;
-                MasterManager.Singleton._dicInverseEnemy[invaderModel] = id;
                 position = new Vector3(obj.gameObject.transform.position.x + DistanceX, diffDistanceY);
                 InitialPosition.position = new Vector3(InitialPosition.position.x , position.y);
             }
         }
     }
 
-  
-
     private void Start()
     {
-        if (NetworkManager.Singleton.IsServer)
+        if (!NetworkManager.Singleton.IsServer)
         {
             this.enabled = false;
         }
         else
         {
-            _id = NetworkManager.Singleton.LocalClientId;
-            RequestCreateInvaderGridServerRpc(_id);
-
+            CreateInvaderGrid();
             InvokeRepeating(nameof(RequestMissileAttackServerRpc), missileSpawnRate, missileSpawnRate);
         }
         

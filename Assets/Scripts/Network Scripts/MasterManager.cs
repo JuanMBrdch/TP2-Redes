@@ -10,8 +10,8 @@ public class MasterManager : NetworkBehaviour
     public PlayerList playerList;
     Dictionary<ulong, PlayerModel> _dic = new Dictionary<ulong, PlayerModel>();
     Dictionary<PlayerModel, ulong> _dicInverse = new Dictionary<PlayerModel, ulong>();
-    public Dictionary<Invader, ulong> _dicInverseEnemy = new Dictionary<Invader, ulong>();
     public Dictionary<ulong, Invader> _dicEnemy = new Dictionary<ulong, Invader>();
+    public Dictionary<Invader, ulong> _dicInverseEnemy = new Dictionary<Invader, ulong>();
     public Invaders invaders;
     public InvaderSinusoidal invaderEspecial;
     [SerializeField] private Transform zone1;
@@ -21,7 +21,10 @@ public class MasterManager : NetworkBehaviour
     public List<Transform> spawnAreas = new List<Transform>();
     private List<Transform> availableSpawnAreas = new List<Transform>();
     public List<Invader> invaderList = new List<Invader>();
-
+    private List<Color> colorList = new List<Color>(){Color.green,Color.blue,Color.red,Color.white};
+    
+    
+    
     private static MasterManager _instance;
     public static MasterManager Singleton => _instance;
 
@@ -49,7 +52,10 @@ public class MasterManager : NetworkBehaviour
         var randomIndex = Random.Range(0, availableSpawnAreas.Count);
         var spawnPoint = availableSpawnAreas[randomIndex];
         var obj = Instantiate<NetworkObject>(playerPrefab, spawnPoint);
+        obj.GetComponent<SpriteRenderer>().color = colorList[^1];
+        colorList.RemoveAt(colorList.Count - 1);
         obj.Spawn();
+        UpdateColorClientRpc();
         availableSpawnAreas.RemoveAt(randomIndex);
 
         var playerModel = obj.GetComponent<PlayerModel>();
@@ -67,6 +73,12 @@ public class MasterManager : NetworkBehaviour
         playerList.AddPlayer(playerModel);
     }
 
+    [ClientRpc]
+    public void UpdateColorClientRpc()
+    {
+        
+    }
+    
     [ServerRpc(RequireOwnership = false)]
     public void RequestMoveServerRpc(ulong id, Vector3 dir)
     {
@@ -85,48 +97,42 @@ public class MasterManager : NetworkBehaviour
     {
         invaders.Shoot();
     }
-    public void RemovePlayer(PlayerModel player)
-    {
-        var id = _dicInverse[player];
-        _dicInverse.Remove(player);
-        _dic.Remove(id);
-    }
-
+    
     public void RemoveEnemy(Invader invader)
     {
-        var id = _dicInverseEnemy[invader];
-        _dicInverseEnemy.Remove(invader);
-        _dicEnemy.Remove(id);
-    } 
-
-    [ServerRpc(RequireOwnership = false)]
-    public void RemoveEnemyServerRpc(ulong networkObjectId)
-    {
-        var invader = FindObjectsByType<Invader>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID);
-        for (int i = 0; i < invader.Length; i++)
+        invaderList.Remove(invader);
+        if (invaderList.Count == 0)
         {
-            if (invader[i].NetworkObjectId == networkObjectId)
+            ClientRpcParams p = new ClientRpcParams();
+            List<ulong> players = new List<ulong>();
+            foreach (var id in NetworkManager.Singleton.ConnectedClientsIds)
             {
-                var id = _dicInverseEnemy[invader[i]];
-                _dicInverseEnemy.Remove(invader[i]);
-                _dicEnemy.Remove(id);
-                invader[i].GetComponent<NetworkObject>().Despawn(true);
-                break;
+                if (GetPlayer(id))
+                {
+                    players.Add(id);
+                    p.Send.TargetClientIds = players;
+                    WinCondition.Singleton.WinScreenClientRpc(id, p);
+                    players.Clear();
+                }
             }
         }
     }
-    [ServerRpc(RequireOwnership = false)]
-    public void RemovePlayerServerRpc(ulong networkObjectId)
+    
+    public void RemovePlayerGame(ulong networkObjectId)
     {
+        ClientRpcParams p = new ClientRpcParams();
+        List<ulong> playersL = new List<ulong>();
         var players = FindObjectsByType<PlayerModel>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID);
         for (int i = 0; i < players.Length; i++)
         {
             if (players[i].NetworkObjectId == networkObjectId)
             {
                 var id = _dicInverse[players[i]];
+                playersL.Add(id);
+                p.Send.TargetClientIds = playersL;
                 _dicInverse.Remove(players[i]);
                 _dic.Remove(id);
-                players[i].GetComponent<NetworkObject>().Despawn(true);
+                WinCondition.Singleton.LoseScreenClientRpc(id, p);
                 break;
             }
         }

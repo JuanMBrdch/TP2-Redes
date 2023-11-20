@@ -23,10 +23,13 @@ public class Invader : NetworkBehaviour
         if (IsServer)
         {
             MasterManager.Singleton.invaderList.Add(this);
+            print("agregado");
         }
         InvokeRepeating(nameof(AnimateSprite), animationTime, animationTime);
     }
-
+    
+    
+    
     private void AnimateSprite()
     {
         animationFrame++;
@@ -44,10 +47,14 @@ public class Invader : NetworkBehaviour
         {
             MasterManager.Singleton.RemoveEnemy(this);
             GetComponent<NetworkObject>().Despawn(true);
-        }
-        else
-        {
-            MasterManager.Singleton.RemoveEnemyServerRpc(NetworkObjectId);
+            OnDestroy();
         }
     }
+
+
+    public override void OnDestroy()
+    {
+        MasterManager.Singleton.invaderList.Remove(this);
+    }
+
 }

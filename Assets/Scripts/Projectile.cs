@@ -33,7 +33,6 @@ public class Projectile : NetworkBehaviour
             {
                 playerModel.TakeDamage();
             }
-           // Destroy();
         }
     }
 
