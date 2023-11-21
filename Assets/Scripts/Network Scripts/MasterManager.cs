@@ -10,8 +10,6 @@ public class MasterManager : NetworkBehaviour
     public PlayerList playerList;
     Dictionary<ulong, PlayerModel> _dic = new Dictionary<ulong, PlayerModel>();
     Dictionary<PlayerModel, ulong> _dicInverse = new Dictionary<PlayerModel, ulong>();
-    public Dictionary<ulong, Invader> _dicEnemy = new Dictionary<ulong, Invader>();
-    public Dictionary<Invader, ulong> _dicInverseEnemy = new Dictionary<Invader, ulong>();
     public Invaders invaders;
     public InvaderSinusoidal invaderEspecial;
     [SerializeField] private Transform zone1;
@@ -22,8 +20,7 @@ public class MasterManager : NetworkBehaviour
     private List<Transform> availableSpawnAreas = new List<Transform>();
     public List<Invader> invaderList = new List<Invader>();
     private List<Color> colorList = new List<Color>(){Color.green,Color.blue,Color.red,Color.white};
-    
-    
+
     
     private static MasterManager _instance;
     public static MasterManager Singleton => _instance;
@@ -53,9 +50,7 @@ public class MasterManager : NetworkBehaviour
         var spawnPoint = availableSpawnAreas[randomIndex];
         var obj = Instantiate<NetworkObject>(playerPrefab, spawnPoint);
         obj.GetComponent<SpriteRenderer>().color = colorList[^1];
-        colorList.RemoveAt(colorList.Count - 1);
         obj.Spawn();
-        UpdateColorClientRpc();
         availableSpawnAreas.RemoveAt(randomIndex);
 
         var playerModel = obj.GetComponent<PlayerModel>();
@@ -68,15 +63,36 @@ public class MasterManager : NetworkBehaviour
         customData.score = Random.Range(0, 100);
         customData.isDead = Random.value > 0.5f;
 
+        Vector3 nColor = new Vector3(colorList[^1].a, colorList[^1].b, colorList[^1].g);
+        
+        ClientRpcParams p = new ClientRpcParams();
+        List<ulong> players = new List<ulong>();
+        foreach (var _id in NetworkManager.Singleton.ConnectedClientsIds)
+        {
+            if (GetPlayer(_id))
+            {
+                players.Add(_id);
+                p.Send.TargetClientIds = players;
+                //UpdateColorClientRpc(nColor);
+                colorList.RemoveAt(colorList.Count - 1);
+                players.Clear();
+            }
+        }
+        
         playerModel.customData.Value = customData;
 
         playerList.AddPlayer(playerModel);
     }
 
     [ClientRpc]
-    public void UpdateColorClientRpc()
+    public void UpdateColorClientRpc(Vector3 color, ulong id)
     {
-        
+        // PlayerModel[] playerModels = GameObject.FindObjectsByType<PlayerModel>(UnityEngine.FindObjectsSortMode.None);
+        // Color pjColor = new Color(color.x, color.y, color.z);
+        // foreach (var  in playerModels)
+        // {
+        //     playerModels[].GetComponent<SpriteRenderer>().color = pjColor;
+        // }
     }
     
     [ServerRpc(RequireOwnership = false)]
