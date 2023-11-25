@@ -52,7 +52,7 @@ public class NetworkController : MonoBehaviour
     }
     void LoadScene()
     {
-        NetworkManager.Singleton.SceneManager.LoadScene("Space Invaders", LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
     }
 
     void SetInteractable(bool v)

@@ -1216,7 +1216,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   InitialPosition: {fileID: 1190630402}
   rows: 5
-  columns: 5
+  columns: 22
   DistanceX: 2
   DistanceY: 2
   missilePrefab: {fileID: 5048512893512326460, guid: 3c328e673b90a7f418f1f1e66f83522b, type: 3}
