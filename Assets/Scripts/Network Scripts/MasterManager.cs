@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -16,8 +17,8 @@ public class MasterManager : NetworkBehaviour
     [SerializeField] private Transform zone2;
     [SerializeField] private Transform zone3;
     [SerializeField] private Transform zone4;
-    public List<Transform> spawnAreas = new List<Transform>();
     private List<Transform> availableSpawnAreas = new List<Transform>();
+    public List<Transform> spawnAreas = new List<Transform>();
     public List<Invader> invaderList = new List<Invader>();
     private List<Color> colorList = new List<Color>(){Color.green,Color.blue,Color.red,Color.white};
 
@@ -49,7 +50,7 @@ public class MasterManager : NetworkBehaviour
         var randomIndex = Random.Range(0, availableSpawnAreas.Count);
         var spawnPoint = availableSpawnAreas[randomIndex];
         var obj = Instantiate<NetworkObject>(playerPrefab, spawnPoint);
-        obj.GetComponent<SpriteRenderer>().color = colorList[^1];
+        obj.GetComponent<SpriteRenderer>().color = colorList[0];
         obj.Spawn();
         availableSpawnAreas.RemoveAt(randomIndex);
 
@@ -62,22 +63,22 @@ public class MasterManager : NetworkBehaviour
         customData.nickname = nickname;
         customData.score = Random.Range(0, 100);
         customData.isDead = Random.value > 0.5f;
-
-        Vector3 nColor = new Vector3(colorList[^1].a, colorList[^1].b, colorList[^1].g);
         
-        ClientRpcParams p = new ClientRpcParams();
         List<ulong> players = new List<ulong>();
         foreach (var _id in NetworkManager.Singleton.ConnectedClientsIds)
         {
             if (GetPlayer(_id))
             {
                 players.Add(_id);
-                p.Send.TargetClientIds = players;
-                //UpdateColorClientRpc(nColor);
-                colorList.RemoveAt(colorList.Count - 1);
-                players.Clear();
             }
         }
+
+        if (players.Contains(id))
+        {
+            UpdateColorClientRpc();
+        }
+        
+        colorList.RemoveAt(0);
         
         playerModel.customData.Value = customData;
 
@@ -85,14 +86,15 @@ public class MasterManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void UpdateColorClientRpc(Vector3 color, ulong id)
+    public void UpdateColorClientRpc()
     {
-        // PlayerModel[] playerModels = GameObject.FindObjectsByType<PlayerModel>(UnityEngine.FindObjectsSortMode.None);
-        // Color pjColor = new Color(color.x, color.y, color.z);
-        // foreach (var  in playerModels)
-        // {
-        //     playerModels[].GetComponent<SpriteRenderer>().color = pjColor;
-        // }
+        PlayerModel[] playerModels = GameObject.FindObjectsByType<PlayerModel>(UnityEngine.FindObjectsSortMode.None);
+        int index = 0;
+        foreach (var playerModel in playerModels)
+        {
+            playerModel.GetComponent<SpriteRenderer>().color = colorList[index];
+            index++;
+        }
     }
     
     [ServerRpc(RequireOwnership = false)]
