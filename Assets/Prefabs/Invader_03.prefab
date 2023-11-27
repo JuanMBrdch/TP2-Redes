@@ -202,6 +202,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 65a048392eca1844b8f92f5f80b38790, type: 3}
   animationTime: 1
   score: 10
+  missilePrefab: {fileID: 5048512893512326460, guid: 3c328e673b90a7f418f1f1e66f83522b, type: 3}
 --- !u!114 &5391036119181747558
 MonoBehaviour:
   m_ObjectHideFlags: 0

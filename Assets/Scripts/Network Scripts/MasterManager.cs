@@ -113,7 +113,7 @@ public class MasterManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void RequestShootEnemyServerRpc(ulong id)
     {
-        invaders.Shoot();
+        invaders.enemiesInGrid[Random.Range(0, invaders.enemiesInGrid.Count)].Shoot();
     }
     
     public void RemoveEnemy(Invader invader)

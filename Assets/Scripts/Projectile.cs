@@ -8,7 +8,7 @@ public class Projectile : NetworkBehaviour
     public float speed = 10;
     public float timeToDestroy = 5;
     Rigidbody2D _rb;
-    Invaders _ownerModel;
+    Invader _ownerModel;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -42,7 +42,7 @@ public class Projectile : NetworkBehaviour
         netObj.Despawn(true);
         Destroy(gameObject);
     }
-    public void Shoot(Invaders ownerModel, Vector2 dir)
+    public void Shoot(Invader ownerModel, Vector2 dir)
     {
         _ownerModel = ownerModel;
         _rb.velocity = -dir * speed;

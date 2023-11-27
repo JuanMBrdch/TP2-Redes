@@ -11,7 +11,8 @@ public class Invader : NetworkBehaviour
     public float animationTime = 1f;
     public int animationFrame { get; private set; }
     public int score = 10;
-
+    public Projectile missilePrefab;
+    
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -51,7 +52,14 @@ public class Invader : NetworkBehaviour
         }
     }
 
-
+    public void Shoot()
+    {
+        var dir = transform.up;
+        var netObj = Instantiate(missilePrefab, transform.position, Quaternion.identity).GetComponent<NetworkObject>();
+        netObj.Spawn();
+        netObj.GetComponent<Projectile>().Shoot(this, dir);
+    }
+    
     public override void OnDestroy()
     {
         MasterManager.Singleton.invaderList.Remove(this);
