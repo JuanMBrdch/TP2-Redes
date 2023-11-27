@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Unity.Netcode;
-using UnityEngine.Serialization;
+using Unity.VisualScripting;
 
 public class InvaderSinusoidal : NetworkBehaviour
 {
@@ -12,17 +11,18 @@ public class InvaderSinusoidal : NetworkBehaviour
     public GameObject tpPlace;
 
     private float tiempo = 0f;
-    private Vector3 startPosition;  // Almacena la posición inicial antes de iniciar el movimiento sinusoidal
+    private Vector3 startPosition;  
     private bool correcto = true;
-    private float tiempoSeguir = 0f;
-    private float tiempoLimite = 0.01f;
+    [SerializeField] private float tiempoSeguir = 0f;
+    [SerializeField] private float tiempoLimite = 0.01f;
     private ulong _id;
 
+    private float hitCount;
+    
     void Start()
     {
-        // Almacena la posición inicial antes de iniciar el movimiento sinusoidal
         startPosition = transform.position;
-        
+        hitCount = 35f;
     }
 
     void Update()
@@ -43,30 +43,37 @@ public class InvaderSinusoidal : NetworkBehaviour
         if (!correcto)
         {
             tiempoSeguir += Time.deltaTime;
-
         }
 
         if (tiempoSeguir >= tiempoLimite)
         {
             correcto = true;
-
-            // Mueve el objeto a la posición de tpPlace almacenada
             if (tpPlace != null)
             {
                 transform.position = tpPlace.transform.position;
             }
-            else
-            {
-                Debug.LogWarning("tpPlace no está asignado en el script SnakeInvader");
-            }
-
-            tiempo = 0f; // Reinicia el tiempo cuando vuelves al movimiento sinusoidal
+            tiempo = 0f;
         }
-
-       
     }
 
+    private void OnTriggerEnter2D(Collider other)
+    {
+        if (other.CompareTag("Laser"))
+        {
+            
+        }
+    }
 
+    public void TakeDamage()
+    {
+        hitCount--;
+        if (hitCount <= 0)
+        {
+            var netObj = GetComponent<NetworkObject>();
+            netObj.Despawn();
+        }
+    }
+    
     public void ComeBack()
     {
         if (tpPlace != null)
@@ -74,7 +81,6 @@ public class InvaderSinusoidal : NetworkBehaviour
             correcto = false;
             startPosition = tpPlace.transform.position;
             transform.position = startPosition;
-            Debug.Log("LLAMA");
         }
        
     }

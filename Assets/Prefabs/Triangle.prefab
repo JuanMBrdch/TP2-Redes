@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2203510207
+  GlobalObjectIdHash: 860534710
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -124,9 +124,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6492221bd37b1c45b6f1da10804ca00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amplitudX: 10.95
-  velocidadX: 6
-  velocidadY: 3
+  amplitudX: 20
+  velocidadX: 0.3
+  velocidadY: 2
   tpPlace: {fileID: 0}
 --- !u!61 &1609817160732906373
 BoxCollider2D:

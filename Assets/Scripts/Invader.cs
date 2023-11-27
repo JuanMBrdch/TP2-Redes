@@ -24,7 +24,6 @@ public class Invader : NetworkBehaviour
         if (IsServer)
         {
             MasterManager.Singleton.invaderList.Add(this);
-            print("agregado");
         }
         InvokeRepeating(nameof(AnimateSprite), animationTime, animationTime);
     }

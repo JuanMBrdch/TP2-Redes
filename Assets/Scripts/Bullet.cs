@@ -12,23 +12,23 @@ public class Bullet : NetworkBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-
     }
-    // private void Update()
-    // {
-    //     if (!NetworkManager.Singleton.IsServer) return;
-    // }
-
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!NetworkManager.Singleton.IsServer) return;
         var playerModel = other.GetComponent<PlayerModel>();
         var enemyModel = other.GetComponent<Invader>();
+        var enemy2Model = other.GetComponent<InvaderSinusoidal>();
 
         if (playerModel == _ownerModel) return;
         if (enemyModel != null)
         {
             enemyModel.TakeDamage();
+        }
+        else if(enemy2Model != null)
+        {
+            enemy2Model.TakeDamage();
         }
         Destroy();
     } 
