@@ -1,14 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Bullet : NetworkBehaviour
 {
+    [SerializeField] private PlayerModel _ownerModel;
+    private Rigidbody2D _rb;
     public float speed = 10;
     public float timeToDestroy = 5;
-    Rigidbody2D _rb;
-    PlayerModel _ownerModel;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -25,6 +24,7 @@ public class Bullet : NetworkBehaviour
         if (enemyModel != null)
         {
             enemyModel.TakeDamage();
+            _ownerModel.AddScore(enemyModel.score);
         }
         else if(enemy2Model != null)
         {
@@ -36,7 +36,7 @@ public class Bullet : NetworkBehaviour
     private void Destroy()
     {
         var netObj = GetComponent<NetworkObject>();
-        netObj.Despawn(true);
+        netObj.Despawn();
         Destroy(gameObject);
     }
     public void Shoot(PlayerModel ownerModel, Vector2 dir)
@@ -45,7 +45,8 @@ public class Bullet : NetworkBehaviour
         _rb.velocity = dir * speed;
         StartCoroutine(WaitToDestroy());
     }
-    IEnumerator WaitToDestroy()
+
+    private IEnumerator WaitToDestroy()
     {
         yield return new WaitForSeconds(timeToDestroy);
         Destroy();

@@ -1,76 +1,70 @@
-using System;
 using UnityEngine;
 using Unity.Netcode;
-using Unity.VisualScripting;
+using UnityEngine.Serialization;
 
 public class InvaderSinusoidal : NetworkBehaviour
 {
-    public float amplitudX = 2f;
-    public float velocidadX = 2f;
-    public float velocidadY = 1f;
+    public float amplitudeX = 2f;
+    public float speedX = 2f;
+    public float speedY = 1f;
     public GameObject tpPlace;
 
-    private float tiempo = 0f;
-    private Vector3 startPosition;  
-    private bool correcto = true;
-    [SerializeField] private float tiempoSeguir = 0f;
-    [SerializeField] private float tiempoLimite = 0.01f;
+    private float _time = 0f;
+    private Vector3 _startPosition;  
+    private bool _correct = true;
+    [SerializeField] private float continueTime = 0f;
+    [SerializeField] private float timeLimit = 0.01f;
     private ulong _id;
 
-    private float hitCount;
-    
-    void Start()
+    private float _hitCount;
+
+    private void Start()
     {
-        startPosition = transform.position;
-        hitCount = 35f;
+        _startPosition = transform.position;
+        _hitCount = 35f;
     }
 
-    void Update()
+    private void Update()
     {
-        if (correcto)
+        if (_correct)
         {
-            tiempo += Time.deltaTime;
+            _time += Time.deltaTime;
 
-            float desplazamientoX = Mathf.Sin(tiempo * velocidadX) * amplitudX;
-            float desplazamientoY = -tiempo * velocidadY;
+            float movX = Mathf.Sin(_time * speedX) * amplitudeX;
+            float movY = -_time * speedY;
 
-            Vector3 nuevaPosicion = startPosition + new Vector3(desplazamientoX, desplazamientoY, 0f);
+            Vector3 newPos = _startPosition + new Vector3(movX, movY, 0f);
 
-            transform.position = nuevaPosicion;
-            tiempoSeguir = 0;
+            transform.position = newPos;
+            continueTime = 0;
         }
 
-        if (!correcto)
+        if (!_correct)
         {
-            tiempoSeguir += Time.deltaTime;
+            continueTime += Time.deltaTime;
         }
 
-        if (tiempoSeguir >= tiempoLimite)
+        if (continueTime >= timeLimit)
         {
-            correcto = true;
+            _correct = true;
             if (tpPlace != null)
             {
                 transform.position = tpPlace.transform.position;
             }
-            tiempo = 0f;
+            _time = 0f;
         }
     }
-
-    private void OnTriggerEnter2D(Collider other)
-    {
-        if (other.CompareTag("Laser"))
-        {
-            
-        }
-    }
-
+    
     public void TakeDamage()
     {
-        hitCount--;
-        if (hitCount <= 0)
+        if (IsServer)
         {
-            var netObj = GetComponent<NetworkObject>();
-            netObj.Despawn();
+            _hitCount--;
+            if (_hitCount <= 0)
+            {
+                var netObj = GetComponent<NetworkObject>();
+                netObj.Despawn();
+            }
         }
     }
     
@@ -78,10 +72,9 @@ public class InvaderSinusoidal : NetworkBehaviour
     {
         if (tpPlace != null)
         {
-            correcto = false;
-            startPosition = tpPlace.transform.position;
-            transform.position = startPosition;
+            _correct = false;
+            _startPosition = tpPlace.transform.position;
+            transform.position = _startPosition;
         }
-       
     }
 }

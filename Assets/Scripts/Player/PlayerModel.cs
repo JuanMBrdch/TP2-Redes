@@ -4,33 +4,26 @@ using UnityEngine;
 
 public class PlayerModel : NetworkBehaviour
 {
+    private Rigidbody2D _rb;
+    private Vector3 _dir;
     public float speed;
     public Bullet bulletPrefab;
     public NetworkVariable<int> score;
-    public NetworkVariable<int> team;
-    public NetworkVariable<FixedString128Bytes> nickname;
     public NetworkVariable<CustomData> customData;
-    private Rigidbody2D _rb;
-    private Vector3 dir;
+    public NetworkVariable<FixedString128Bytes> nickname;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        score = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        score = new NetworkVariable<int>();
         nickname = new NetworkVariable<FixedString128Bytes>("Player", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-        customData = new NetworkVariable<CustomData>(new CustomData(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner); ;
+        customData = new NetworkVariable<CustomData>(new CustomData(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     }
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         nickname.OnValueChanged += OnNicknameChange;
-        customData.OnValueChanged += OnCustomDataChange;
-    }
-
-    private void OnCustomDataChange(CustomData prev, CustomData next)
-    {
-        print("Nickname: " + next.nickname + "  Score: " + next.score + "  IsDead: " + next.isDead);
     }
 
     private void OnNicknameChange(FixedString128Bytes prev, FixedString128Bytes next)
@@ -57,7 +50,12 @@ public class PlayerModel : NetworkBehaviour
         if (NetworkManager.Singleton.IsServer)
         {
             MasterManager.Singleton.RemovePlayerGame(NetworkObjectId);
-            GetComponent<NetworkObject>().Despawn(true);
+            GetComponent<NetworkObject>().Despawn();
         }
+    }
+
+    public void AddScore(int scoreAdded)
+    {
+        score.Value += scoreAdded;
     }
 }

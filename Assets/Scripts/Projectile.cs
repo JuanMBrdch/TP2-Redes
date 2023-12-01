@@ -1,24 +1,18 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 
 public class Projectile : NetworkBehaviour
 {
     public float speed = 10;
     public float timeToDestroy = 5;
-    Rigidbody2D _rb;
-    Invader _ownerModel;
+    private Rigidbody2D _rb;
+    private Invader _ownerModel;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-
     }
-    //private void Update()
-    //{
-    //   if (!NetworkManager.Singleton.IsServer) return;
-    // }
-
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!NetworkManager.Singleton.IsServer) return;

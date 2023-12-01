@@ -1078,12 +1078,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e90a6adff2f09e44b1aa24553129ade, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 5404012256688772468, guid: 2ee34bf7de9701648a4821e4a8d69117, type: 3}
-  - {fileID: 5404012256688772468, guid: 2ee34bf7de9701648a4821e4a8d69117, type: 3}
-  - {fileID: 8695222901735762892, guid: 92725eb3a0283d641835e37afa65bda1, type: 3}
-  - {fileID: 8695222901735762892, guid: 92725eb3a0283d641835e37afa65bda1, type: 3}
-  - {fileID: 2093113910961863722, guid: 4a81c84ee7dea6d49a91f3fc916f3543, type: 3}
   speed:
     serializedVersion: 2
     m_Curve:
@@ -1135,6 +1129,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  prefabs:
+  - {fileID: 5404012256688772468, guid: 2ee34bf7de9701648a4821e4a8d69117, type: 3}
+  - {fileID: 5404012256688772468, guid: 2ee34bf7de9701648a4821e4a8d69117, type: 3}
+  - {fileID: 8695222901735762892, guid: 92725eb3a0283d641835e37afa65bda1, type: 3}
+  - {fileID: 8695222901735762892, guid: 92725eb3a0283d641835e37afa65bda1, type: 3}
+  - {fileID: 2093113910961863722, guid: 4a81c84ee7dea6d49a91f3fc916f3543, type: 3}
   InitialPosition: {fileID: 1190630402}
   rows: 5
   columns: 22
@@ -1209,7 +1209,7 @@ GameObject:
   - component: {fileID: 1041278750}
   - component: {fileID: 1041278749}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: Timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1544,8 +1544,8 @@ RectTransform:
   m_Children:
   - {fileID: 1984502042}
   - {fileID: 1475334421}
-  - {fileID: 1468468868}
   - {fileID: 1041278748}
+  - {fileID: 1468468868}
   - {fileID: 709157971}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2590,7 +2590,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1984502042
 RectTransform:
   m_ObjectHideFlags: 0

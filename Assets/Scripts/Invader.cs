@@ -33,11 +33,10 @@ public class Invader : NetworkBehaviour
     private void AnimateSprite()
     {
         animationFrame++;
-
-        if (animationFrame >= animationSprites.Length) {
+        if (animationFrame >= animationSprites.Length) 
+        {
             animationFrame = 0;
         }
-
         spriteRenderer.sprite = animationSprites[animationFrame];
     }
 

@@ -199,6 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   timeToDestroy: 5
+  _ownerModel: {fileID: 504173874313183400, guid: 66bd06b2a6a4e7145979bcc821e27b3d, type: 3}
 --- !u!114 &4895378020199183957
 MonoBehaviour:
   m_ObjectHideFlags: 0

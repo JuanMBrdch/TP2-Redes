@@ -1,26 +1,25 @@
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class MasterManager : NetworkBehaviour
 {
-    public NetworkObject enemyPrefab;
-    public NetworkObject playerPrefab;
-    public PlayerList playerList;
-    Dictionary<ulong, PlayerModel> _dic = new Dictionary<ulong, PlayerModel>();
-    Dictionary<PlayerModel, ulong> _dicInverse = new Dictionary<PlayerModel, ulong>();
-    public Invaders invaders;
-    public InvaderSinusoidal invaderEspecial;
+    private List<Transform> availableSpawnAreas = new List<Transform>();
+    private List<Color> colorList = new List<Color>(){Color.green,Color.blue,Color.red,Color.white};
+    private Dictionary<PlayerModel, ulong> _dicInverse = new Dictionary<PlayerModel, ulong>();
+    private Dictionary<ulong, PlayerModel> _dic = new Dictionary<ulong, PlayerModel>();
     [SerializeField] private Transform zone1;
     [SerializeField] private Transform zone2;
     [SerializeField] private Transform zone3;
     [SerializeField] private Transform zone4;
-    private List<Transform> availableSpawnAreas = new List<Transform>();
+    public NetworkObject playerPrefab;
+    public NetworkObject enemyPrefab;
+    public PlayerList playerList;
+    public Invaders invaders;
+    public InvaderSinusoidal invaderEspecial;
     public List<Transform> spawnAreas = new List<Transform>();
     public List<Invader> invaderList = new List<Invader>();
-    private List<Color> colorList = new List<Color>(){Color.green,Color.blue,Color.red,Color.white};
 
     
     private static MasterManager _instance;
