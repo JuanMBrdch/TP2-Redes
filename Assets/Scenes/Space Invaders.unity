@@ -1141,8 +1141,8 @@ MonoBehaviour:
   DistanceX: 2
   DistanceY: 2
   missilePrefab: {fileID: 5048512893512326460, guid: 3c328e673b90a7f418f1f1e66f83522b, type: 3}
-  missileSpawnRate: 0.75
-  MaxInvadersAttack: 10
+  missileSpawnRate: 2
+  MaxInvadersAttack: 7
   MinInvadersAttack: 5
   enemiesInGrid: []
 --- !u!114 &962212321
@@ -1422,15 +1422,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cee9fddd5f2332443b8136eab5b697ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 4600337051534240836, guid: 4a81c84ee7dea6d49a91f3fc916f3543, type: 3}
-  playerPrefab: {fileID: 1528795836143559437, guid: 66bd06b2a6a4e7145979bcc821e27b3d, type: 3}
-  playerList: {fileID: 1475334423}
-  invaders: {fileID: 962212320}
-  invaderEspecial: {fileID: 854904022}
   zone1: {fileID: 263989169}
   zone2: {fileID: 1871860311}
   zone3: {fileID: 1239103309}
   zone4: {fileID: 1776107960}
+  playerPrefab: {fileID: 1528795836143559437, guid: 66bd06b2a6a4e7145979bcc821e27b3d, type: 3}
+  enemyPrefab: {fileID: 4600337051534240836, guid: 4a81c84ee7dea6d49a91f3fc916f3543, type: 3}
+  playerList: {fileID: 1475334423}
+  invaders: {fileID: 962212320}
+  invaderEspecial: {fileID: 854904022}
   spawnAreas: []
   invaderList: []
 --- !u!4 &1270053538
@@ -2081,9 +2081,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 550, y: 511}
+  m_AnchoredPosition: {x: 550.0021, y: 511.01605}
   m_SizeDelta: {x: 200, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5000004, y: 0.50000036}
 --- !u!114 &1475334422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2770,8 +2770,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 79126247}
   m_HandleRect: {fileID: 79126246}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 0.99999994
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

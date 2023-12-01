@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Unity.Netcode;
 
@@ -13,15 +14,25 @@ public class PlayerAnims : NetworkBehaviour
     }
     private void Start()
     {
-        if (!IsOwner)
+        if (!IsServer)
         {
             enabled = false;
         }
     }
 
+    public void OnDie()
+    {
+        anim.SetTrigger("OnDie");
+        Invoke(nameof(Despawn), 1f);
+    }
+
+    void Despawn()
+    {
+        GetComponent<NetworkObject>().Despawn();
+    }
+    
     private void Update()
     {
-        if (!IsOwner) return;
-        anim.SetFloat("Vel", _rb.velocity.magnitude);
+        if (!IsServer) return;
     }
 }

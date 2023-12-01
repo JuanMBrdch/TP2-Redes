@@ -18,6 +18,7 @@ public class Projectile : NetworkBehaviour
         if (!NetworkManager.Singleton.IsServer) return;
 
         var playerModel = other.GetComponent<PlayerModel>();
+        var playerAnim = other.GetComponent<PlayerAnims>();
         if (playerModel == _ownerModel) return;
 
         var netObj = other.GetComponent<NetworkObject>();
@@ -26,6 +27,7 @@ public class Projectile : NetworkBehaviour
             if (playerModel != null)
             {
                 playerModel.TakeDamage();
+                playerAnim.OnDie();
             }
         }
     }

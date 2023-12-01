@@ -50,7 +50,6 @@ public class PlayerModel : NetworkBehaviour
         if (NetworkManager.Singleton.IsServer)
         {
             MasterManager.Singleton.RemovePlayerGame(NetworkObjectId);
-            GetComponent<NetworkObject>().Despawn();
         }
     }
 

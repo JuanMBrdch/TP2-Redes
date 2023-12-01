@@ -61,29 +61,39 @@ public class Invaders : NetworkBehaviour
         else
         {
             CreateInvaderGrid();
-            InvokeRepeating(nameof(RequestMissileAttackServerRpc), missileSpawnRate, missileSpawnRate);
+            InvokeRepeating(nameof(RequestMissileAttack), missileSpawnRate, missileSpawnRate);
         }
-        
     }
-    [ServerRpc(RequireOwnership = false)]
-    private void RequestMissileAttackServerRpc()
+    
+    
+    private void RequestMissileAttack()
     {
         var count = Random.Range(MinInvadersAttack, MaxInvadersAttack);
-        foreach(var obj in _invadersDic)
+        while (count > 0)
         {
-            if (!obj.Value.gameObject.activeInHierarchy) continue;
-
-            var isShoot = Random.Range(0, 1) == 1;
-
-            if (isShoot) 
-            {
-                count--;
-                var missile = Instantiate(missilePrefab);
-                var networkObj = missile.GetComponent<NetworkObject>();
-                networkObj.transform.position = obj.Value.transform.position;
-                networkObj.Spawn();
-                if (count <= 0) return;
-            }
+            count--;
+            var randomEnemy = Random.Range(0, enemiesInGrid.Count);
+            var missile = Instantiate(missilePrefab);
+            var networkObj = missile.GetComponent<NetworkObject>();
+            networkObj.transform.position = enemiesInGrid[randomEnemy].transform.position;
+            networkObj.Spawn();
+            networkObj.GetComponent<Projectile>().Shoot(enemiesInGrid[randomEnemy], Vector2.up);
         }
+        // foreach(var obj in _invadersDic)
+        // {
+        //     if (!obj.Value.gameObject.activeInHierarchy) continue;
+        //
+        //     var isShoot = Random.Range(0, 1) == 1;
+        //
+        //     if (isShoot) 
+        //     {
+        //         count--;
+        //         var missile = Instantiate(missilePrefab);
+        //         var networkObj = missile.GetComponent<NetworkObject>();
+        //         networkObj.transform.position = obj.Value.transform.position;
+        //         networkObj.Spawn();
+        //         if (count <= 0) return;
+        //     }
+        // }
     }
 }

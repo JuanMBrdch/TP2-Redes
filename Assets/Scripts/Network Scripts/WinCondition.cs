@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -21,20 +22,32 @@ public class WinCondition : NetworkBehaviour
 
         winLoseScreen.SetActive(false);
     }
-   
+    
+    
+    private void EndGame()
+    {
+        var pModels = new List<PlayerModel>();
+        foreach (var id in NetworkManager.Singleton.ConnectedClientsIds)
+        {
+            var playerModel = MasterManager.Singleton.GetPlayerModel(id);
+            pModels.Add(playerModel);
+        }
+        
+        
+    }
     
      [ClientRpc]
-     public void LoseScreenClientRpc(ulong id, ClientRpcParams p)
+     public void LoseScreenClientRpc(ulong id, int score,string nickname,ClientRpcParams p)
      {
          winLoseScreen.SetActive(true);
-         winLoseText.text = "Has perdido, los invasores te destrozaron";
+         winLoseText.text = "Has perdido, los invasores te destrozaron" + "\n" + nickname + ":" + score;
      }
     
     
      [ClientRpc] 
-     public void WinScreenClientRpc(ulong id, ClientRpcParams p)
+     public void WinScreenClientRpc(ulong id,int score,string nickname, ClientRpcParams p)
      {
          winLoseScreen.SetActive(true);
-         winLoseText.text = "Has Ganado, sobreviste a al ataque de los invasores";
+         winLoseText.text = "Has Ganado, sobreviste a al ataque de los invasores" + "\n" + nickname + ":" + score;
      }
 }

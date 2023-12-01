@@ -6,6 +6,7 @@ using Unity.Netcode;
 
 public class ScoreSystem : NetworkBehaviour
 {
+    
     private static ScoreSystem _instance;
     public static ScoreSystem Singleton => _instance;
     
@@ -32,4 +33,6 @@ public class ScoreSystem : NetworkBehaviour
             
         }
     }
+    
+    
 }

@@ -128,7 +128,8 @@ public class MasterManager : NetworkBehaviour
                 {
                     players.Add(id);
                     p.Send.TargetClientIds = players;
-                    WinCondition.Singleton.WinScreenClientRpc(id, p);
+                    var playerModel = GetPlayerModel(id);
+                    WinCondition.Singleton.WinScreenClientRpc(id, playerModel.score.Value, playerModel.nickname.Value.ToString(),p);
                     players.Clear();
                 }
             }
@@ -147,9 +148,10 @@ public class MasterManager : NetworkBehaviour
                 var id = _dicInverse[players[i]];
                 playersL.Add(id);
                 p.Send.TargetClientIds = playersL;
+                var playerModel = GetPlayerModel(id);
+                WinCondition.Singleton.LoseScreenClientRpc(id, playerModel.score.Value, playerModel.nickname.Value.ToString(),p);
                 _dicInverse.Remove(players[i]);
                 _dic.Remove(id);
-                WinCondition.Singleton.LoseScreenClientRpc(id, p);
                 break;
             }
         }
@@ -163,6 +165,11 @@ public class MasterManager : NetworkBehaviour
     public bool GetPlayer(ulong id)
     {
         return _dic.ContainsKey(id);
+    }
+    
+    public PlayerModel GetPlayerModel(ulong id)
+    {
+        return _dic[id];
     }
     
     public ulong GetID(PlayerModel model)

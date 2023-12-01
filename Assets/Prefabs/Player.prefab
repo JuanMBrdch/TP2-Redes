@@ -16,6 +16,10 @@ GameObject:
   - component: {fileID: -7251572576666637161}
   - component: {fileID: 832426665667074064}
   - component: {fileID: 504173874313183400}
+  - component: {fileID: -4241192173311903623}
+  - component: {fileID: -9025710015213846045}
+  - component: {fileID: -8414583508676852076}
+  - component: {fileID: 5730174268948347897}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -243,8 +247,6 @@ MonoBehaviour:
   bulletPrefab: {fileID: -4961775896649393486, guid: 23fd25ca702c62748a3e69792cfe9566, type: 3}
   score:
     m_InternalValue: 4
-  team:
-    m_InternalValue: 1
   nickname:
     m_InternalValue:
       utf8LengthInBytes: 0
@@ -382,4 +384,80 @@ MonoBehaviour:
         byte0123: 0
         byte0124: 0
         byte0125: 0
-  direction: {x: 0, y: 1, z: 0}
+--- !u!95 &-4241192173311903623
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2720496924961406451}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1f24845e3fef95e4bbac717abbe4e863, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-9025710015213846045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2720496924961406451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1485882831
+    DestinationState: 860486596
+    TransitionDuration: 0
+    TriggerNameHash: 957143184
+    TransitionIndex: 0
+  m_Animator: {fileID: -4241192173311903623}
+--- !u!114 &-8414583508676852076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2720496924961406451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d86142fd506f44396092932995a925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1485882831
+    DestinationState: 860486596
+    TransitionDuration: 0
+    TriggerNameHash: 957143184
+    TransitionIndex: 0
+  m_Animator: {fileID: -4241192173311903623}
+--- !u!114 &5730174268948347897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2720496924961406451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411ebea06bdd430428419dd83c4bcf53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: -4241192173311903623}
