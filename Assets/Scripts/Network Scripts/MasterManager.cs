@@ -77,13 +77,12 @@ public class MasterManager : NetworkBehaviour
             UpdateColorClientRpc();
         }
         
-        colorList.RemoveAt(0);
-        
+        // colorList.RemoveAt(0);
         playerModel.customData.Value = customData;
-
         playerList.AddPlayer(playerModel);
     }
-
+    
+    //que el servidor decida que player tiene que color
     [ClientRpc]
     public void UpdateColorClientRpc()
     {

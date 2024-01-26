@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Photon.Pun;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -22,7 +23,9 @@ public class PlayerFAController : MonoBehaviour
             var nickname = PlayerPrefs.GetString("Nickname");
             chat.RegisterUserServerRpc(_id, nickname);
             MasterManager.Singleton.RequestSpawnPlayerServerRpc(_id, nickname);
+            PhotonNetwork.Instantiate("VoiceObject", Vector3.zero, Quaternion.identity);
         }
+        
     }
 
     private void Update()
