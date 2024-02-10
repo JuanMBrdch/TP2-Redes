@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 441201952}
   - component: {fileID: 441201951}
   m_Layer: 5
-  m_Name: Mic
+  m_Name: Mic Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -418,8 +418,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -58.8, y: -4.3}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -119.40001, y: -4.3}
+  m_SizeDelta: {x: 78.8, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &441201951
 MonoBehaviour:
@@ -1264,7 +1264,7 @@ MonoBehaviour:
   ApplyDontDestroyOnLoad: 1
   runInBackground: 1
   statsResetInterval: 1000
-  speakerPrefab: {fileID: 0}
+  speakerPrefab: {fileID: 8817112588993722967, guid: d9b9b6476b538d1468a1e8de70a4e290, type: 3}
   primaryRecorder: {fileID: 1053482132}
   usePrimaryRecorder: 0
   cppCompatibilityMode: 0
@@ -1944,8 +1944,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3d8ecb6c9cd2f4da8adb649f31fd96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dDown: {fileID: 1675034264}
-  rec: {fileID: 0}
+  dropdown: {fileID: 1675034264}
+  rec: {fileID: 1053482132}
 --- !u!114 &1675034264
 MonoBehaviour:
   m_ObjectHideFlags: 0

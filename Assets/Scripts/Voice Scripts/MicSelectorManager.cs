@@ -8,12 +8,12 @@ using Photon.Voice.Unity;
 
 public class MicSelectorManager : MonoBehaviour
 {
-    public Dropdown dDown;
+    public Dropdown dropdown;
     public Recorder rec;
     private void Awake()
     {
         var list = new List<string>(Microphone.devices);
-        dDown.AddOptions(list);
+        dropdown.AddOptions(list);
     }
 
     public void SetMic(int i)
