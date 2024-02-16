@@ -9,6 +9,7 @@ public class ChatManager : NetworkBehaviour
 {
     private ulong _localId;
     public ScrollRect scrollRect;
+    public TMP_InputField InputField;
     public TextMeshProUGUI content;
     Dictionary<ulong, string> _nicknames = new Dictionary<ulong, string>();
     Dictionary<string, ulong> _nicknamesInverse = new Dictionary<string, ulong>();
@@ -38,14 +39,27 @@ public class ChatManager : NetworkBehaviour
     
     public void SendChatMessage(string message)
     {
+        if(string.IsNullOrEmpty(InputField.text) || string.IsNullOrWhiteSpace(InputField.text)) return;
+        InputField.text = "";
         MessageServerRpc(_localId, message);
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void MessageServerRpc(ulong id, string message)
     {
+        string[] split = message.Split(' ');
         var nickname = _nicknames[id];
-        UpdateChatClientRpc(id, nickname, message);
+        if(split[0] == "w/" && _nicknamesInverse.ContainsKey(split[1]))
+        {
+            var p = new ClientRpcParams();
+            p.Send.TargetClientIds = new ulong[] { id, _nicknamesInverse[split[1]] };
+            var join = string.Join(" ", split, 2, split.Length - 2);
+            UpdateChatClientRpc(id, nickname, message);
+        }
+        else
+        {
+            UpdateChatClientRpc(id, nickname, message);
+        }
     }
     [ClientRpc]
     public void UpdateChatClientRpc(ulong userId, string userNickname, string message)

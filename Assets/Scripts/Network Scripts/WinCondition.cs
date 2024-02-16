@@ -32,15 +32,20 @@ public class WinCondition : NetworkBehaviour
             var playerModel = MasterManager.Singleton.GetPlayerModel(id);
             pModels.Add(playerModel);
         }
-        
-        
     }
     
      [ClientRpc]
      public void LoseScreenClientRpc(ulong id, int score,string nickname,ClientRpcParams p)
      {
          winLoseScreen.SetActive(true);
-         winLoseText.text = "Has perdido, los invasores te destrozaron" + "\n" + nickname + ":" + score;
+         if (Timer.Singleton.TimerGet <= 0)
+         {
+             winLoseText.text = "Has perdido, no destruiste los invasores a tiempo" + "\n" + nickname + ":" + score;
+         }
+         else
+         {
+             winLoseText.text = "Has perdido, los invasores te destrozaron" + "\n" + nickname + ":" + score;
+         }
      }
     
     
