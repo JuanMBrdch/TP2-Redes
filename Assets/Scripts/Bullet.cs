@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : NetworkBehaviour
 {
-    [SerializeField] private PlayerModel _ownerModel;
+    [SerializeField] private PlayerHybridModel _ownerModel;
     private Rigidbody2D _rb;
     public float speed = 10;
     public float timeToDestroy = 5;
@@ -17,12 +17,13 @@ public class Bullet : NetworkBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!NetworkManager.Singleton.IsServer) return;
-        var playerModel = other.GetComponent<PlayerModel>();
+        //if (!NetworkManager.Singleton.IsServer) return;
+        var playerModel = other.GetComponent<PlayerHybridModel>();
         var enemyModel = other.GetComponent<Invader>();
         var enemy2Model = other.GetComponent<InvaderSinusoidal>();
-
         if (playerModel == _ownerModel) return;
+        Debug.Log("entramos");
+
         if (enemyModel != null)
         {
             enemyModel.TakeDamage();
