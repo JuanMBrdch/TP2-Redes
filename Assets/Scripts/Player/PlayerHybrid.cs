@@ -10,19 +10,25 @@ public class PlayerHybrid : NetworkBehaviour
     {
         _model = GetComponent<PlayerHybridModel>();
 
-        if (!IsOwner)
-        {
-            this.enabled = false;
-        }
+        
        
     }
-
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        if (!IsOwner)
+        {
+            enabled = false;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
 
+        if (!IsOwner) return;
 
-        var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
+        var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, (Input.GetAxisRaw("Vertical")));
+        Debug.Log("te podes mover");
 
         _model.Move(dir.normalized);
         if (Input.GetKeyDown(KeyCode.Space))
