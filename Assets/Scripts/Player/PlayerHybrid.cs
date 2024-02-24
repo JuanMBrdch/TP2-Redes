@@ -27,10 +27,11 @@ public class PlayerHybrid : NetworkBehaviour
 
         if (!IsOwner) return;
 
-        var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, (Input.GetAxisRaw("Vertical")));
-        Debug.Log("te podes mover");
+        var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
+        _model.Move(dir);
 
-        _model.Move(dir.normalized);
+        Debug.Log(dir);
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             RequestShootServerRpc(transform.forward);
