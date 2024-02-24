@@ -1,6 +1,7 @@
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerModel : NetworkBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerModel : NetworkBehaviour
     public float speed;
     public Bullet bulletPrefab;
     public NetworkVariable<int> score;
+    public NetworkVariable<ulong> id;
     public NetworkVariable<CustomData> customData;
     public NetworkVariable<FixedString128Bytes> nickname;
 
@@ -16,6 +18,7 @@ public class PlayerModel : NetworkBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         score = new NetworkVariable<int>();
+        id = new NetworkVariable<ulong>();
         nickname = new NetworkVariable<FixedString128Bytes>("Player", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         customData = new NetworkVariable<CustomData>(new CustomData(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     }
@@ -23,6 +26,10 @@ public class PlayerModel : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        if (IsLocalPlayer)
+        {
+            id.Value = NetworkManager.Singleton.LocalClientId;
+        }
         nickname.OnValueChanged += OnNicknameChange;
     }
 
@@ -47,12 +54,19 @@ public class PlayerModel : NetworkBehaviour
     
     public void TakeDamage()
     {
-        if (NetworkManager.Singleton.IsServer)
-        {
-            MasterManager.Singleton.RemovePlayerGame(NetworkObjectId);
-        }
+        GetComponent<NetworkObject>().Despawn(true);
     }
 
+    public void ChangeColor()
+    {
+        var obj = GetComponent<SpriteRenderer>();
+        var Rnd1 = Random.Range(0, 255);
+        var Rnd2 = Random.Range(0, 255);
+        var Rnd3 = Random.Range(0, 255);
+        Color color = new Color(Rnd1, Rnd2, Rnd3);
+        obj.color = color;
+    }
+    
     public void AddScore(int scoreAdded)
     {
         score.Value += scoreAdded;
