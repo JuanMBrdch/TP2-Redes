@@ -8,7 +8,6 @@ public class Bullet : NetworkBehaviour
     private Rigidbody2D _rb;
     public float speed = 10;
     public float timeToDestroy = 5;
-    IPlayer owner;
 
     private void Awake()
     {
@@ -17,7 +16,7 @@ public class Bullet : NetworkBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //if (!NetworkManager.Singleton.IsServer) return;
+        if (!NetworkManager.Singleton.IsServer) return;
         var playerModel = other.GetComponent<PlayerHybridModel>();
         var enemyModel = other.GetComponent<Invader>();
         var enemy2Model = other.GetComponent<InvaderSinusoidal>();
@@ -33,7 +32,9 @@ public class Bullet : NetworkBehaviour
         {
             enemy2Model.TakeDamage();
         }
-        Destroy();
+        //Destroy();
+        var netObj = GetComponent<NetworkObject>();
+        netObj.Despawn();
     } 
 
     private void Destroy()
@@ -42,9 +43,9 @@ public class Bullet : NetworkBehaviour
         netObj.Despawn();
         Destroy(gameObject);
     }
-    public void Shoot(IPlayer ownerModel, Vector2 dir)
+    public void Shoot(PlayerHybridModel ownerModel, Vector2 dir)
     {
-        owner = ownerModel;
+        _ownerModel = ownerModel;
         _rb.velocity = dir * speed;
         StartCoroutine(WaitToDestroy());
     }
