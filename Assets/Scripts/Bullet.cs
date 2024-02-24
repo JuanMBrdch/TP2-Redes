@@ -8,6 +8,8 @@ public class Bullet : NetworkBehaviour
     private Rigidbody2D _rb;
     public float speed = 10;
     public float timeToDestroy = 5;
+    IPlayer owner;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -39,9 +41,9 @@ public class Bullet : NetworkBehaviour
         netObj.Despawn();
         Destroy(gameObject);
     }
-    public void Shoot(PlayerModel ownerModel, Vector2 dir)
+    public void Shoot(IPlayer ownerModel, Vector2 dir)
     {
-        _ownerModel = ownerModel;
+        owner = ownerModel;
         _rb.velocity = dir * speed;
         StartCoroutine(WaitToDestroy());
     }
