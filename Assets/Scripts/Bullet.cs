@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Bullet : NetworkBehaviour
 {
-    [SerializeField] private PlayerModel _ownerModel;
+    [SerializeField] private PlayerHybridModel _ownerModel;
     private Rigidbody2D _rb;
     public float speed = 10;
     public float timeToDestroy = 5;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -16,11 +17,12 @@ public class Bullet : NetworkBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!NetworkManager.Singleton.IsServer) return;
-        var playerModel = other.GetComponent<PlayerModel>();
+        var playerModel = other.GetComponent<PlayerHybridModel>();
         var enemyModel = other.GetComponent<Invader>();
         var enemy2Model = other.GetComponent<InvaderSinusoidal>();
-
         if (playerModel == _ownerModel) return;
+        Debug.Log("entramos");
+
         if (enemyModel != null)
         {
             enemyModel.TakeDamage();
@@ -30,7 +32,9 @@ public class Bullet : NetworkBehaviour
         {
             enemy2Model.TakeDamage();
         }
-        Destroy();
+        //Destroy();
+        var netObj = GetComponent<NetworkObject>();
+        netObj.Despawn();
     } 
 
     private void Destroy()
@@ -39,7 +43,7 @@ public class Bullet : NetworkBehaviour
         netObj.Despawn();
         Destroy(gameObject);
     }
-    public void Shoot(PlayerModel ownerModel, Vector2 dir)
+    public void Shoot(PlayerHybridModel ownerModel, Vector2 dir)
     {
         _ownerModel = ownerModel;
         _rb.velocity = dir * speed;

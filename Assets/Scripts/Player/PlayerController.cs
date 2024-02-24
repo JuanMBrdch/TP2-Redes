@@ -20,7 +20,7 @@ public class PlayerController : NetworkBehaviour
 
      private void Update()
      {
-        var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0,0);
-        MasterManager.Singleton.RequestMoveServerRpc(_localID, dir);
+       // var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0,0);
+        //MasterManager.Singleton.RequestMoveServerRpc(_localID, dir);
      }
 }

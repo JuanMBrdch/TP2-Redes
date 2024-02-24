@@ -197,9 +197,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856e6a5e994097a4aad72ff77e3f26b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ownerModel: {fileID: 3542849212837648596, guid: 66bd06b2a6a4e7145979bcc821e27b3d, type: 3}
   speed: 5
   timeToDestroy: 5
-  _ownerModel: {fileID: 504173874313183400, guid: 66bd06b2a6a4e7145979bcc821e27b3d, type: 3}
 --- !u!114 &4895378020199183957
 MonoBehaviour:
   m_ObjectHideFlags: 0
