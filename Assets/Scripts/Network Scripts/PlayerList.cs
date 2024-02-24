@@ -6,7 +6,7 @@ using Unity.Netcode;
 public class PlayerList : NetworkBehaviour
 {
     public TextMeshProUGUI ui;
-    List<PlayerModel> _playerList = new List<PlayerModel>();
+    public List<PlayerModel> _playerList = new List<PlayerModel>();
 
     public void AddPlayer(PlayerModel playerModel)
     {

@@ -11,7 +11,6 @@ public class Lobby : NetworkBehaviour
     public NetworkObject netObj;
     private void Awake()
     {
-        
         currentPlayer = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     }
 
