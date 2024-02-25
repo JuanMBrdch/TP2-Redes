@@ -7,8 +7,8 @@ public class MasterManager : NetworkBehaviour
 {
     private List<Transform> availableSpawnAreas = new List<Transform>();
     public List<Color> colorList = new List<Color>(){Color.green,Color.blue,Color.red,Color.white, Color.cyan, Color.magenta, Color.yellow};
-    public Dictionary<ulong, PlayerModel> _dic = new Dictionary<ulong, PlayerModel>();
-    private Dictionary<PlayerModel, ulong> _dicInverse = new Dictionary<PlayerModel, ulong>();
+    public Dictionary<ulong, PlayerHybridModel> _dic = new Dictionary<ulong, PlayerHybridModel>();
+    private Dictionary<PlayerHybridModel, ulong> _dicInverse = new Dictionary<PlayerHybridModel, ulong>();
     [SerializeField] private Transform zone1;
     [SerializeField] private Transform zone2;
     [SerializeField] private Transform zone3;
@@ -49,10 +49,10 @@ public class MasterManager : NetworkBehaviour
         var randomIndex = Random.Range(0, availableSpawnAreas.Count);
         var spawnPoint = availableSpawnAreas[randomIndex];
         var obj = Instantiate<NetworkObject>(playerPrefab, spawnPoint);
-        obj.Spawn();
+        obj.SpawnWithOwnership(id);
         availableSpawnAreas.RemoveAt(randomIndex);
 
-        var playerModel = obj.GetComponent<PlayerModel>();
+        var playerModel = obj.GetComponent<PlayerHybridModel>();
         _dic[id] = playerModel;
         _dicInverse[playerModel] = id;
         playerModel.nickname.Value = nickname;
@@ -137,7 +137,7 @@ public class MasterManager : NetworkBehaviour
     {
         ClientRpcParams p = new ClientRpcParams();
         List<ulong> playersL = new List<ulong>();
-        var players = FindObjectsByType<PlayerModel>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID);
+        var players = FindObjectsByType<PlayerHybridModel>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID);
         for (int i = 0; i < players.Length; i++)
         {
             if (players[i].NetworkObjectId == networkObjectId)
@@ -164,12 +164,12 @@ public class MasterManager : NetworkBehaviour
         return _dic.ContainsKey(id);
     }
     
-    public PlayerModel GetPlayerModel(ulong id)
+    public PlayerHybridModel GetPlayerModel(ulong id)
     {
         return _dic[id];
     }
     
-    public ulong GetID(PlayerModel model)
+    public ulong GetID(PlayerHybridModel model)
     {
         return _dicInverse[model];
     }

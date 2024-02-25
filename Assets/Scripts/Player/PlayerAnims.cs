@@ -5,16 +5,16 @@ using Unity.Netcode;
 public class PlayerAnims : NetworkBehaviour
 {
     public Animator anim;
-    private PlayerModel _playerModel;
+    private PlayerHybridModel _playerModel;
     private Rigidbody _rb;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _playerModel = GetComponent<PlayerModel>();
+        _playerModel = GetComponent<PlayerHybridModel>();
     }
     private void Start()
     {
-        if (!IsServer)
+        if (!IsOwner)
         {
             enabled = false;
         }
@@ -33,6 +33,6 @@ public class PlayerAnims : NetworkBehaviour
     
     private void Update()
     {
-        if (!IsServer) return;
+        if (!IsOwner) return;
     }
 }

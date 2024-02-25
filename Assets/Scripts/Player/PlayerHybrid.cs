@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using Photon.Pun;
+
 public class PlayerHybrid : NetworkBehaviour
 {
     PlayerHybridModel _model;
@@ -10,8 +12,6 @@ public class PlayerHybrid : NetworkBehaviour
     {
         _model = GetComponent<PlayerHybridModel>();
 
-        
-       
     }
     public override void OnNetworkSpawn()
     {

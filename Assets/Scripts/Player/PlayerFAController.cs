@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerFAController : MonoBehaviour
 {
-   /* private ulong _id;
+    private ulong _id;
     public ChatManager chat;
 
     public List<string> preMsjs = new List<string>();
@@ -45,5 +45,5 @@ public class PlayerFAController : MonoBehaviour
             }
         }
     }
-   */
+   
 }
