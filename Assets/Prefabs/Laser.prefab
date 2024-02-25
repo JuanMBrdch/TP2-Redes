@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ownerModel: {fileID: 3542849212837648596, guid: 66bd06b2a6a4e7145979bcc821e27b3d, type: 3}
-  speed: 5
+  speed: 12
   timeToDestroy: 5
 --- !u!114 &4895378020199183957
 MonoBehaviour:

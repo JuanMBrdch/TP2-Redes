@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using Photon.Pun;
+using Photon.Voice.PUN;
 
 public class PlayerHybrid : NetworkBehaviour
 {
@@ -11,8 +13,14 @@ public class PlayerHybrid : NetworkBehaviour
     void Awake()
     {
         _model = GetComponent<PlayerHybridModel>();
-
     }
+
+    private void Start()
+    {
+        PhotonNetwork.Instantiate("VoiceObject", Vector3.zero, Quaternion.identity);
+        PunVoiceClient.Instance.PrimaryRecorder.TransmitEnabled = false;
+    }
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -21,10 +29,8 @@ public class PlayerHybrid : NetworkBehaviour
             enabled = false;
         }
     }
-    // Update is called once per frame
     void Update()
     {
-
         if (!IsOwner) return;
 
         var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
@@ -35,6 +41,15 @@ public class PlayerHybrid : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             RequestShootServerRpc(transform.forward);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            PunVoiceClient.Instance.PrimaryRecorder.TransmitEnabled = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.C))
+        {
+            PunVoiceClient.Instance.PrimaryRecorder.TransmitEnabled = false;
         }
     }
 

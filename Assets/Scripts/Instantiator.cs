@@ -13,15 +13,12 @@ public class Instantiator : NetworkBehaviour
 
     public void Start()
     {
-     
         ulong id = NetworkManager.Singleton.LocalClientId;
-        //RequestSpawnPlayerServerRpc(id);
         var nickname = PlayerPrefs.GetString("Nickname");
-        //chat.RegisterUserServerRpc(id, nickname);
+        chat.RegisterUserServerRpc(id, nickname);
         MasterManager.Singleton.RequestSpawnPlayerServerRpc(id, nickname);
-
-
     }
+    
     [ServerRpc(RequireOwnership = false)]
     private void RequestSpawnPlayerServerRpc(ulong id)
     {
