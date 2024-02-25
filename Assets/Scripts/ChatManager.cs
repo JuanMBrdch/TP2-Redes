@@ -6,6 +6,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 
 public class ChatManager : NetworkBehaviour
@@ -77,8 +78,8 @@ public class ChatManager : NetworkBehaviour
             case "showchat":
                 ShowChatCommand();
                 break;
-            case "":
-
+            case "colorchange":
+                ColorChangeCommand();
                 break;
             default:
                 Debug.LogWarning("Unknown command: " + command);
@@ -149,12 +150,13 @@ public class ChatManager : NetworkBehaviour
         DMChatClientRpc(id, _nicknames[id], message);
     }
 
-    [ServerRpc]
-    void ResetGameServerRpc(ulong id, string reset)
+    [ServerRpc(RequireOwnership = false)]
+    public void ResetGameServerRpc(ulong id, string reset)
     {
-        if(!NetworkManager.Singleton.IsServer)return;
+        if (!NetworkManager.Singleton.IsServer) return;
         NetworkManager.Singleton.SceneManager.LoadScene("Space Invaders", LoadSceneMode.Single);
     }
+
     
     [ServerRpc]
     void LoseGameCommandServerRpc(ulong id, string text)
@@ -176,6 +178,18 @@ public class ChatManager : NetworkBehaviour
     void ShowChatCommand()
     {
         chatViewport.SetActive(true);
+    }
+
+    void ColorChangeCommand()
+    {
+        var list = FindObjectsByType<PlayerModel>(FindObjectsInactive.Include,FindObjectsSortMode.None);
+        var colorList = new List<Color>() { Color.magenta, Color.gray, Color.yellow, Color.cyan };
+        foreach (var item in list)
+        {
+            var rnd = Random.Range(0, colorList.Count);
+            item.GetComponent<SpriteRenderer>().color = colorList[rnd];
+            colorList.RemoveAt(rnd);
+        }
     }
     
     IEnumerator WaitToScroll()
