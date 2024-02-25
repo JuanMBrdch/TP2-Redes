@@ -73,11 +73,15 @@ public class Invaders : NetworkBehaviour
         {
             count--;
             var randomEnemy = Random.Range(0, enemiesInGrid.Count);
-            var missile = Instantiate(missilePrefab);
-            var networkObj = missile.GetComponent<NetworkObject>();
-            networkObj.transform.position = enemiesInGrid[randomEnemy].transform.position;
-            networkObj.Spawn();
-            networkObj.GetComponent<Projectile>().Shoot(enemiesInGrid[randomEnemy], Vector2.up);
+            var selectedEnemy = enemiesInGrid[randomEnemy];
+            if (selectedEnemy != null)
+            {
+                var missile = Instantiate(missilePrefab);
+                var networkObj = missile.GetComponent<NetworkObject>();
+                networkObj.transform.position = enemiesInGrid[randomEnemy].transform.position;
+                networkObj.Spawn();
+                networkObj.GetComponent<Projectile>().Shoot(enemiesInGrid[randomEnemy], Vector2.up);
+            }
         }
         // foreach(var obj in _invadersDic)
         // {

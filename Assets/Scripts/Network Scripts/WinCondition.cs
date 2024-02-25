@@ -35,7 +35,7 @@ public class WinCondition : NetworkBehaviour
 
     private void EndGame()
     {
-        var pModels = new List<PlayerModel>();
+        var pModels = new List<PlayerHybridModel>();
         foreach (var id in NetworkManager.Singleton.ConnectedClientsIds)
         {
             var playerModel = MasterManager.Singleton.GetPlayerModel(id);

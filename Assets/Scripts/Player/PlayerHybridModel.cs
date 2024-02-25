@@ -2,24 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using Unity.Collections;
 
 
-public class PlayerHybridModel : NetworkBehaviour, IPlayer
+public class PlayerHybridModel : NetworkBehaviour
 {
 
     private Rigidbody2D _rb;
     public float speed;
     public Bullet bulletPrefab;
     public NetworkVariable<int> score;
+    public NetworkVariable<ulong> id;
+    public NetworkVariable<CustomData> customData;
+    public NetworkVariable<FixedString128Bytes> nickname;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        score = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+        id = new NetworkVariable<ulong>();
 
+        score = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+        nickname = new NetworkVariable<FixedString128Bytes>("Player", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+        customData = new NetworkVariable<CustomData>(new CustomData(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     }
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        if (IsLocalPlayer)
+        {
+            id.Value = NetworkManager.Singleton.LocalClientId;
+        }
+        nickname.OnValueChanged += OnNicknameChange;
+    }
 
+    private void OnNicknameChange(FixedString128Bytes prev, FixedString128Bytes next)
+    {
+        print("OnNicknameChange: " + next);
+    }
 
     public void Move(Vector3 dir)
     {
@@ -35,16 +55,10 @@ public class PlayerHybridModel : NetworkBehaviour, IPlayer
         netObj.GetComponent<Bullet>().Shoot(this, dir);
     }
 
-    public void TakeDamage(IPlayer shooter)
+    public void TakeDamage()
     {
-        if (shooter is PlayerHybridModel)
-        {
-            var playerHybridModel = (PlayerHybridModel)shooter;
-            playerHybridModel.score.Value++;
-        }
-        //GetComponent<NetworkObject>().Despawn(true);
-        var p = new ClientRpcParams();
-        p.Send.TargetClientIds = new ulong[] { OwnerClientId };
+        GetComponent<NetworkObject>().Despawn(true);
+
     }
     public void AddScore(int scoreAdded)
     {

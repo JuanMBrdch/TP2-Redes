@@ -17,7 +17,7 @@ public class Projectile : NetworkBehaviour
     {
         if (!NetworkManager.Singleton.IsServer) return;
 
-        var playerModel = other.GetComponent<PlayerModel>();
+        var playerModel = other.GetComponent<PlayerHybridModel>();
         var playerAnim = other.GetComponent<PlayerAnims>();
         if (playerModel == _ownerModel) return;
 

@@ -6,12 +6,12 @@ using Unity.Netcode;
 public class PlayerList : NetworkBehaviour
 {
     public TextMeshProUGUI ui;
-    public List<PlayerModel> _playerList = new List<PlayerModel>();
+    public List<PlayerHybridModel> _playerList = new List<PlayerHybridModel>();
 
-    public void AddPlayer(PlayerModel playerModel)
+    public void AddPlayer(PlayerHybridModel PlayerHybridModel)
     {
-        _playerList.Add(playerModel);
-        playerModel.customData.OnValueChanged += OnCustomDataChanged;
+        _playerList.Add(PlayerHybridModel);
+        PlayerHybridModel.customData.OnValueChanged += OnCustomDataChanged;
         RefreshUI();
     }
     

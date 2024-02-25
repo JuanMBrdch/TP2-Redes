@@ -363,6 +363,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1528795836143559437, guid: 66bd06b2a6a4e7145979bcc821e27b3d, type: 3}
+  chat: {fileID: 1468468870}
+  preMsjs: []
+  msjInputs: 
 --- !u!4 &461182959
 Transform:
   m_ObjectHideFlags: 0
@@ -1488,6 +1491,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cee9fddd5f2332443b8136eab5b697ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colorList:
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   zone1: {fileID: 263989169}
   zone2: {fileID: 1871860311}
   zone3: {fileID: 1239103309}
@@ -2050,8 +2061,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollRect: {fileID: 1812616360}
-  InputField: {fileID: 0}
+  chatViewport: {fileID: 0}
   content: {fileID: 471042751}
+  inputField: {fileID: 0}
 --- !u!850595691 &1471928184
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -2184,6 +2196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ui: {fileID: 1475334424}
+  _playerList: []
 --- !u!114 &1475334424
 MonoBehaviour:
   m_ObjectHideFlags: 0
