@@ -47,13 +47,13 @@ public class WinCondition : NetworkBehaviour
      public void LoseScreenClientRpc(ulong id, int score,string nickname,ClientRpcParams p)
      {
          winLoseScreen.SetActive(true);
-         winLoseText.text = "Has perdido, los invasores te destrozaron" + "\n" + nickname + ":" + score + Timer.Singleton.TimerGet; //agregar tiempo sobrevivido
+         winLoseText.text = "Has perdido, los invasores te destrozaron" + "\n" + nickname + ":" + score + "puntos" + "\n" + "segundos en combate" + Timer.Singleton.TimerGet + "s"; //agregar tiempo sobrevivido
      }
      [ClientRpc]
      public void WinScreenClientRpc(ulong id,int score ,string nickname ,ClientRpcParams p)
      {
          winLoseScreen.SetActive(true);
-         winLoseText.text = "Has Ganado, sobreviste a al ataque de los invasores" + "\n" + nickname + ":" + score; //mostar el puntaje del resto de jugadores
+         winLoseText.text = "Has Ganado, sobreviste a al ataque de los invasores" + "\n" + nickname + ":" + score + "puntos" + "\n" + "segundos en combate" + Timer.Singleton.TimerGet + "s"; //mostar el puntaje del resto de jugadores
      }
 
      [ClientRpc]

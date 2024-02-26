@@ -36,6 +36,7 @@ public class PlayerHybrid : NetworkBehaviour
             RequestShootServerRpc(transform.forward);
         }
 
+        
         if (Input.GetKeyDown(KeyCode.C))
         {
             PunVoiceClient.Instance.PrimaryRecorder.TransmitEnabled = true;
