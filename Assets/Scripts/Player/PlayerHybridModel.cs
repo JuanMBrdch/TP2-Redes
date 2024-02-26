@@ -57,9 +57,13 @@ public class PlayerHybridModel : NetworkBehaviour
 
     public void TakeDamage()
     { 
-            GetComponent<NetworkObject>().Despawn(true);
         Debug.Log("moricion");
-            MasterManager.Singleton.RemovePlayerGame(NetworkManager.Singleton.LocalClientId);       
+      
+       
+            MasterManager.Singleton.RemovePlayerGame(NetworkObjectId);
+            GetComponent<NetworkObject>().Despawn(true);
+
+        
     }
     public void AddScore(int scoreAdded)
     {
