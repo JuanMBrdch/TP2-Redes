@@ -277,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0a438ff7704ab04192386556c48535c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinPlayers: 2
+  MinPlayers: 4
   currentPlayer:
     m_InternalValue: 0
   netObj: {fileID: 830100713}

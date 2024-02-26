@@ -25,8 +25,6 @@ public class Lobby : NetworkBehaviour
             SpawnPlayerConnectionServerRpc();
         }
     }
-
-    
     
     public void StartRoom() 
     {

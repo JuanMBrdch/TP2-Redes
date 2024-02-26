@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
-using Photon.Pun;
 using Photon.Voice.PUN;
 
 public class PlayerHybrid : NetworkBehaviour
@@ -30,13 +26,11 @@ public class PlayerHybrid : NetworkBehaviour
         var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
         _model.Move(dir);
 
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             RequestShootServerRpc(transform.forward);
         }
 
-        
         if (Input.GetKeyDown(KeyCode.C))
         {
             PunVoiceClient.Instance.PrimaryRecorder.TransmitEnabled = true;

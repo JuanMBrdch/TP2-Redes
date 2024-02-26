@@ -158,13 +158,13 @@ public class ChatManager : NetworkBehaviour
     }
 
     
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     void LoseGameCommandServerRpc(ulong id, string text)
     {
         WinCondition.Singleton.AltLoseScreenClientRpc(id);
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     void WinGameCommandServerRpc(ulong id, string text)
     {
         WinCondition.Singleton.AltWinScreenClientRpc(id);

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -88,7 +89,7 @@ public class MasterManager : NetworkBehaviour
         int index = 0;
         foreach (var playerModel in playerModels)
         {
-            playerModel.GetComponent<SpriteRenderer>().color = colorList[index];
+            playerModel.GetComponent<SpriteRenderer>().color = Random.ColorHSV();
             index++;
         }
     }
