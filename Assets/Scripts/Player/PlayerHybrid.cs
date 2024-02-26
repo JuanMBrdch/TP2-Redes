@@ -14,13 +14,7 @@ public class PlayerHybrid : NetworkBehaviour
     {
         _model = GetComponent<PlayerHybridModel>();
     }
-
-    private void Start()
-    {
-        PhotonNetwork.Instantiate("VoiceObject", Vector3.zero, Quaternion.identity);
-        PunVoiceClient.Instance.PrimaryRecorder.TransmitEnabled = false;
-    }
-
+    
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
