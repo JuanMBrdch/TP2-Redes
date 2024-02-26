@@ -30,7 +30,6 @@ public class PlayerHybrid : NetworkBehaviour
         var dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
         _model.Move(dir);
 
-        Debug.Log(dir);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
